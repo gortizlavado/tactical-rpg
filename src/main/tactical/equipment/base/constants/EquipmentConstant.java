@@ -1,4 +1,4 @@
-package tactical.equipment.hand.base.constants;
+package tactical.equipment.base.constants;
 
 public class EquipmentConstant {
 

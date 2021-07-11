@@ -1,18 +1,21 @@
 package tactical.players.base;
 
-import tactical.equipment.hand.base.BaseHandEquipment;
+import lombok.ToString;
+import tactical.equipment.base.BaseBodyEquipment;
+import tactical.equipment.base.BaseHandEquipment;
 import tactical.models.Coordinate;
-import tactical.players.character.ActionCharacter;
-import tactical.players.character.BaseCharacter;
+import tactical.players.base.character.ActionCharacter;
+import tactical.players.base.character.BaseCharacter;
 
 import java.util.Arrays;
 
+@ToString(callSuper=true)
 public class Player extends BaseCharacter implements ActionCharacter {
 
     private final static int BEGINNING_LEVEL = 1;
 
     public Player(boolean isFinishedTurn, String name, int health, int attackPower, int defensePower,
-                  int move, Coordinate coordinate, BaseHandEquipment[] weapon, String[] armor) {
+                  int move, Coordinate coordinate, BaseHandEquipment[] weapon, BaseBodyEquipment[] armor) {
         super(isFinishedTurn, name, BEGINNING_LEVEL, health, attackPower, defensePower, move, coordinate, weapon, armor);
     }
 
@@ -22,7 +25,7 @@ public class Player extends BaseCharacter implements ActionCharacter {
     }
 
     public Player(boolean isFinishedTurn, String name, int level, int health, int attackPower, int defensePower,
-                  int move, Coordinate coordinate, BaseHandEquipment[] weapon, String[] armor) {
+                  int move, Coordinate coordinate, BaseHandEquipment[] weapon, BaseBodyEquipment[] armor) {
         super(isFinishedTurn, name, level, health, attackPower, defensePower, move, coordinate, weapon, armor);
     }
 
@@ -81,4 +84,5 @@ public class Player extends BaseCharacter implements ActionCharacter {
     private void printAttack(int attackPower) {
         System.out.printf("Player %s attack with power %d%n", this.name, attackPower);
     }
+
 }

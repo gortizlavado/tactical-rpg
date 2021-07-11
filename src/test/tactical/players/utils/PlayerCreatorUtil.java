@@ -1,6 +1,6 @@
 package tactical.players.utils;
 
-import tactical.equipment.hand.base.BaseHandEquipment;
+import tactical.equipment.base.BaseHandEquipment;
 import tactical.players.base.Player;
 import tactical.models.Coordinate;
 
@@ -8,20 +8,24 @@ public class PlayerCreatorUtil {
 
     public static Player createTestPlayerNoEquipment() {
         Coordinate initialCoordinate = fetchInitialCoordinate();
-        return new Player(false, "John Doe", 100, 30, 10, 5, initialCoordinate);
+        Player player = new Player(false, "John Doe", 100, 30, 10, 5, initialCoordinate);
+        System.out.println(player.toString());
+        return player;
     }
 
     public static Player createTestPlayerEquipmentWithSword() {
         Coordinate initialCoordinate = fetchInitialCoordinate();
         Player player = new Player(false, "John Doe", 100, 30, 10, 5, initialCoordinate);
-        player.setHandEquipment(createTestHandEquipmentWithSword());
+        player.setEquipment(createTestHandEquipmentWithSword());
+        System.out.println(player.toString());
         return player;
     }
 
     public static Player createTestPlayerEquipmentWithSwordAndShield() {
         Coordinate initialCoordinate = fetchInitialCoordinate();
         Player player = new Player(false, "John Doe", 100, 30, 10, 5, initialCoordinate);
-        player.setHandEquipment(createTestHandEquipmentWithSwordAndShield());
+        player.setEquipment(createTestHandEquipmentWithSwordAndShield());
+        System.out.println(player.toString());
         return player;
     }
 

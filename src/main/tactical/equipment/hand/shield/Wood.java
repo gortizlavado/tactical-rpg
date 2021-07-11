@@ -1,7 +1,7 @@
 package tactical.equipment.hand.shield;
 
-import tactical.equipment.hand.base.BaseHandEquipment;
-import tactical.equipment.hand.base.constants.EquipmentConstant;
+import tactical.equipment.base.BaseHandEquipment;
+import tactical.equipment.base.constants.EquipmentConstant;
 
 public class Wood extends BaseHandEquipment {
 

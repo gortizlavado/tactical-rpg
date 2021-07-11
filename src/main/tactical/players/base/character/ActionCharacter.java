@@ -1,4 +1,4 @@
-package tactical.players.character;
+package tactical.players.base.character;
 
 import tactical.models.Coordinate;
 
