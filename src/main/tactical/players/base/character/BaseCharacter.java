@@ -74,4 +74,17 @@ public class BaseCharacter extends StatsCharacter {
         }
     }
 
+    public boolean isEquipped(BaseHandEquipment handEquipment) {
+        int i = 0;
+        boolean found = Boolean.FALSE;
+        while (!found && i < this.handEquipment.length) {
+            if (this.handEquipment[i].equals(handEquipment)) {
+                found = Boolean.TRUE;
+            }
+            i++;
+        }
+
+        return found;
+    }
+
 }

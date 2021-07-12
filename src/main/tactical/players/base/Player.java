@@ -42,20 +42,19 @@ public class Player extends BaseCharacter implements ActionCharacter {
             this.coordinate = destination;
             System.out.println("Movement successful!");
         } else {
-            System.out.println("Impossible Movement ¬¬");
+            System.out.println("Impossible Movement ¬¬. Try with another destination...");
         }
     }
 
     @Override
-    public int attack() {
-        BaseHandEquipment[] weaponEquipped = this.handEquipment;
-        if (Arrays.equals(new BaseHandEquipment[2], weaponEquipped)) {
+    public int attack(final BaseHandEquipment handEquipment) {
+        if (null == handEquipment) {
             printAttack(this.attackPower);
             return this.attackPower;
         }
 
-        int increaseAttackPower = 0;
-        for (BaseHandEquipment equipment : weaponEquipped) {
+        int increaseAttackPower = handEquipment.getAttackPower();
+        for (BaseBodyEquipment equipment : this.bodyEquipment) {
             if (null != equipment) {
                 increaseAttackPower = increaseAttackPower + equipment.getAttackPower();
             }
@@ -68,7 +67,32 @@ public class Player extends BaseCharacter implements ActionCharacter {
 
     @Override
     public int defense() {
-        return this.defensePower;
+        if (Arrays.equals(new BaseHandEquipment[2], this.handEquipment) &&
+                Arrays.equals(new BaseBodyEquipment[2], this.bodyEquipment)) {
+            printDefense(this.defensePower);
+            return this.defensePower;
+        }
+
+        int increaseDefensePower = 0;
+        for (BaseHandEquipment equipment : this.handEquipment) {
+            if (null != equipment) {
+                increaseDefensePower = increaseDefensePower + equipment.getDefensePower();
+            }
+        }
+        for (BaseBodyEquipment equipment : this.bodyEquipment) {
+            if (null != equipment) {
+                increaseDefensePower = increaseDefensePower + equipment.getDefensePower();
+            }
+        }
+
+        int totalDefensePower = this.defensePower + increaseDefensePower;
+        printDefense(totalDefensePower);
+        return totalDefensePower;
+    }
+
+    @Override
+    public void reduceHealth(int healthToReduce) {
+        this.health = this.health - healthToReduce;
     }
 
     @Override
@@ -81,8 +105,16 @@ public class Player extends BaseCharacter implements ActionCharacter {
         return maxAmountOfMovement >= origin.diff(destination);
     }
 
-    private void printAttack(int attackPower) {
-        System.out.printf("Player %s attack with power %d%n", this.name, attackPower);
+    private void printAttack(int power) {
+        printAction("attack", power);
+    }
+
+    private void printDefense(int power) {
+        printAction("defense", power);
+    }
+
+    private void printAction(String action, int power) {
+        System.out.printf("Player %s %s with power %d%n", this.name, action, power);
     }
 
 }

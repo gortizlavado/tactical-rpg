@@ -8,29 +8,29 @@ import tactical.players.utils.PlayerCreatorUtil;
 public class PlayerAttackTest {
 
     @Test
-    void playerShouldAttackHigher_whenFullEquipped() {
+    void playerShouldAttackHigher_whenAttackWithSword() {
 
-        Player testPlayer = PlayerCreatorUtil.createTestPlayerEquipmentWithSwordAndShield();
+        Player testPlayer = PlayerCreatorUtil.createTestPlayerEquipmentWithSword();
         int playerAttackPower = testPlayer.getAttackPower();
-        int totalAttackPower = testPlayer.attack();
+        int totalAttackPower = testPlayer.attack(testPlayer.getHandEquipment()[0]);
 
         Assertions.assertTrue(totalAttackPower > playerAttackPower);
-        Assertions.assertEquals(41, totalAttackPower);
+        Assertions.assertEquals(40, totalAttackPower);
     }
 
     @Test
-    void playerShouldAttackHigher_whenEquipped() {
+    void playerShouldAttackHigher_whenAttackWithShield() {
 
-        Player testPlayer = PlayerCreatorUtil.createTestPlayerEquipmentWithSword();
-        int totalAttackPower = testPlayer.attack();
+        Player testPlayer = PlayerCreatorUtil.createTestPlayerEquipmentWithSwordAndShield();
+        int totalAttackPower = testPlayer.attack(testPlayer.getHandEquipment()[1]);
 
-        Assertions.assertEquals(40, totalAttackPower);
+        Assertions.assertEquals(31, totalAttackPower);
     }
 
     @Test
     void playerShouldAttack_whenNotEquipped() {
         Player testPlayer = PlayerCreatorUtil.createTestPlayerNoEquipment();
-        int totalAttackPower = testPlayer.attack();
+        int totalAttackPower = testPlayer.attack(testPlayer.getHandEquipment()[0]);
 
         Assertions.assertEquals(testPlayer.getAttackPower(), totalAttackPower);
     }
