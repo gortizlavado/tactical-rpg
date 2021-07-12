@@ -9,7 +9,7 @@ import tactical.equipment.base.BaseHandEquipment;
 import tactical.models.Coordinate;
 
 @Getter
-@ToString(callSuper=true)
+@ToString(callSuper = true)
 public class BaseCharacter extends StatsCharacter {
 
     @Setter
@@ -18,8 +18,8 @@ public class BaseCharacter extends StatsCharacter {
     protected BaseHandEquipment[] handEquipment = new BaseHandEquipment[2];
     protected BaseBodyEquipment[] bodyEquipment = new BaseBodyEquipment[2];
 
-    public BaseCharacter(boolean isFinishedTurn, String name, int level, int health, 
-                         int attackPower, int defensePower, int move, Coordinate coordinate, 
+    public BaseCharacter(boolean isFinishedTurn, String name, int level, int health,
+                         int attackPower, int defensePower, int move, Coordinate coordinate,
                          BaseHandEquipment[] handEquipment, BaseBodyEquipment[] bodyEquipment) {
         super(name, level, health, attackPower, defensePower, move);
         this.isFinishedTurn = isFinishedTurn;
@@ -64,11 +64,11 @@ public class BaseCharacter extends StatsCharacter {
         }
 
         int i = 0;
-        boolean found = false;
+        boolean found = Boolean.FALSE;
         while (!found && i < equipmentArray.length) {
             if (null == equipmentArray[i]) {
                 equipmentArray[i] = equipment;
-                found = true;
+                found = Boolean.TRUE;
             }
             i++;
         }

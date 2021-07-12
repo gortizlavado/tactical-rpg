@@ -11,5 +11,6 @@ public class EquipmentConstant {
 
     public static final int RANGE_ONE = 1;
 
-    private EquipmentConstant() {}
+    private EquipmentConstant() {
+    }
 }

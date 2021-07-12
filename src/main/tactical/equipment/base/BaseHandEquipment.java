@@ -5,8 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
-@ToString(callSuper=true, includeFieldNames=false)
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true, includeFieldNames = false)
 public class BaseHandEquipment extends BaseEquipment {
 
     protected int range;

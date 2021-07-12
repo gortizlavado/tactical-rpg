@@ -5,8 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
-@ToString(callSuper=true)
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 public class BaseBodyEquipment extends BaseEquipment {
 
     public BaseBodyEquipment(String name, int attackPower, int defensePower) {

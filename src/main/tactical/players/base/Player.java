@@ -9,7 +9,7 @@ import tactical.players.base.character.BaseCharacter;
 
 import java.util.Arrays;
 
-@ToString(callSuper=true)
+@ToString(callSuper = true)
 public class Player extends BaseCharacter implements ActionCharacter {
 
     private final static int BEGINNING_LEVEL = 1;
