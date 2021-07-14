@@ -28,6 +28,15 @@ public class PlayerAttackTest {
     }
 
     @Test
+    void playerShouldAttackHigher_whenAttackWithSwordAndWearRing() {
+
+        Player testPlayer = PlayerCreatorUtil.createTestPlayerEquipmentWithSwordAndShieldAndRing();
+        int totalAttackPower = testPlayer.attack(testPlayer.getHandEquipment()[0]);
+
+        Assertions.assertEquals(41, totalAttackPower);
+    }
+
+    @Test
     void playerShouldAttack_whenNotEquipped() {
         Player testPlayer = PlayerCreatorUtil.createTestPlayerNoEquipment();
         int totalAttackPower = testPlayer.attack(testPlayer.getHandEquipment()[0]);

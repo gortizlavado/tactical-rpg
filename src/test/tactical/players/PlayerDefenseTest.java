@@ -18,6 +18,16 @@ public class PlayerDefenseTest {
     }
 
     @Test
+    void playerShouldDefenseHigher_whenEquippedWithOneShieldAndJacket() {
+        Player testPlayer = PlayerCreatorUtil.createTestPlayerEquipmentWithSwordAndShieldAndJacketAndRing();
+        int playerDefensePower = testPlayer.getDefensePower();
+        int totalDefensePower = testPlayer.defense();
+
+        Assertions.assertTrue(totalDefensePower > playerDefensePower);
+        Assertions.assertEquals(17, totalDefensePower);
+    }
+
+    @Test
     void playerShouldDefense_whenNotEquipped() {
         Player testPlayer = PlayerCreatorUtil.createTestPlayerNoEquipment();
         int playerDefensePower = testPlayer.getDefensePower();

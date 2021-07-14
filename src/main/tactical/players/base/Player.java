@@ -24,6 +24,14 @@ public class Player extends BaseCharacter implements ActionCharacter {
         super(isFinishedTurn, name, BEGINNING_LEVEL, health, attackPower, defensePower, move, coordinate);
     }
 
+    public Player(boolean isFinishedTurn, String name, int health, int attackPower, int defensePower, int move) {
+        super(isFinishedTurn, name, BEGINNING_LEVEL, health, attackPower, defensePower, move);
+    }
+
+    public Player(String name, int level, int health, int attackPower, int defensePower, int move) {
+        super(false, name, level, health, attackPower, defensePower, move);
+    }
+
     public Player(boolean isFinishedTurn, String name, int level, int health, int attackPower, int defensePower,
                   int move, Coordinate coordinate, BaseHandEquipment[] weapon, BaseBodyEquipment[] armor) {
         super(isFinishedTurn, name, level, health, attackPower, defensePower, move, coordinate, weapon, armor);
