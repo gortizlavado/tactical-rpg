@@ -5,9 +5,9 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tactical.exception.BoardCreationException;
-import tactical.models.BoardGame;
+import tactical.game.board.model.BoardGame;
 import tactical.models.Coordinate;
-import tactical.models.SizeBoard;
+import tactical.game.board.model.SizeBoard;
 import tactical.players.base.Player;
 import tactical.players.utils.PlayerCreatorUtil;
 
@@ -78,7 +78,7 @@ class BoardProviderTest {
                 new ArrayList<>(),
                 listOfEnemies));
 
-        Assert.assertThat(exception.getMessage(), CoreMatchers.containsString("numbers of players: 0"));
+        Assert.assertThat(exception.getMessage(), CoreMatchers.containsString("it has to have any players"));
     }
 
     @Test
@@ -91,7 +91,7 @@ class BoardProviderTest {
                 listOfPlayers,
                 new ArrayList<>()));
 
-        Assert.assertThat(exception.getMessage(), CoreMatchers.containsString("numbers of enemies: 0"));
+        Assert.assertThat(exception.getMessage(), CoreMatchers.containsString("it has to have any enemies"));
     }
 
     private void assertCoordinate(Player player, Player[][] board) {

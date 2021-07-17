@@ -13,32 +13,35 @@ import tactical.models.Coordinate;
 public class BaseCharacter extends StatsCharacter {
 
     @Setter
-    protected boolean isFinishedTurn;
-    protected Coordinate coordinate;
-    protected BaseHandEquipment[] handEquipment = new BaseHandEquipment[2];
-    protected BaseBodyEquipment[] bodyEquipment = new BaseBodyEquipment[2];
+    private boolean finishedTurn;
+    @Setter
+    private boolean moveTurn;
+    @Setter
+    private Coordinate coordinate;
+    private BaseHandEquipment[] handEquipment = new BaseHandEquipment[2];
+    private BaseBodyEquipment[] bodyEquipment = new BaseBodyEquipment[2];
 
-    public BaseCharacter(boolean isFinishedTurn, String name, int level, int health,
+    public BaseCharacter(boolean finishedTurn, String name, int level, int health,
                          int attackPower, int defensePower, int move, Coordinate coordinate,
                          BaseHandEquipment[] handEquipment, BaseBodyEquipment[] bodyEquipment) {
         super(name, level, health, attackPower, defensePower, move);
-        this.isFinishedTurn = isFinishedTurn;
+        this.finishedTurn = finishedTurn;
         this.coordinate = coordinate;
         this.handEquipment = handEquipment;
         this.bodyEquipment = bodyEquipment;
     }
 
-    public BaseCharacter(boolean isFinishedTurn, String name, int level, int health, int attackPower,
+    public BaseCharacter(boolean finishedTurn, String name, int level, int health, int attackPower,
                          int defensePower, int move, Coordinate coordinate) {
         super(name, level, health, attackPower, defensePower, move);
-        this.isFinishedTurn = isFinishedTurn;
+        this.finishedTurn = finishedTurn;
         this.coordinate = coordinate;
     }
 
-    public BaseCharacter(boolean isFinishedTurn, String name, int level, int health, int attackPower,
+    public BaseCharacter(boolean finishedTurn, String name, int level, int health, int attackPower,
                          int defensePower, int move) {
         super(name, level, health, attackPower, defensePower, move);
-        this.isFinishedTurn = isFinishedTurn;
+        this.finishedTurn = finishedTurn;
         this.coordinate = new Coordinate(0, 0);
     }
 

@@ -3,7 +3,7 @@ package tactical.equipment.hand.shield;
 import tactical.equipment.base.BaseHandEquipment;
 import tactical.equipment.base.constants.EquipmentConstant;
 
-public class Wood extends BaseHandEquipment {
+public final class Wood extends BaseHandEquipment {
 
     private static final String NAME = "Wood";
 

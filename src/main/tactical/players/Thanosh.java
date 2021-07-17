@@ -5,9 +5,13 @@ import tactical.equipment.base.BaseHandEquipment;
 import tactical.models.Coordinate;
 import tactical.players.base.Player;
 
-public class Thanosh extends Player {
+public final class Thanosh extends Player {
 
     private final static String NAME = "Thanosh";
+
+    public Thanosh() {
+        super(Boolean.FALSE, NAME, 50, 15, 7, 5);
+    }
 
     public Thanosh(int health, int attackPower, int defensePower,
                    int move, Coordinate coordinate, BaseHandEquipment[] weapon, BaseBodyEquipment[] armor) {

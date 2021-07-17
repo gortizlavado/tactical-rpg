@@ -1,9 +1,9 @@
 package tactical.game.board;
 
 import tactical.exception.BoardCreationException;
-import tactical.models.BoardGame;
+import tactical.game.board.model.BoardGame;
 import tactical.models.Coordinate;
-import tactical.models.SizeBoard;
+import tactical.game.board.model.SizeBoard;
 import tactical.players.base.Player;
 
 import java.util.List;

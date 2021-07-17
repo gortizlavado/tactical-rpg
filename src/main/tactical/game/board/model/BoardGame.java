@@ -1,4 +1,4 @@
-package tactical.models;
+package tactical.game.board.model;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

@@ -39,15 +39,17 @@ public class Player extends BaseCharacter implements ActionCharacter {
 
     @Override
     public void move(final Coordinate destination) {
-        if (this.isFinishedTurn) {
+        if (!this.isMoveTurn()) {
+            System.out.println("Not have more movement ¬¬");
             return;
         }
 
-        Coordinate initial = this.coordinate;
+        Coordinate initial = this.getCoordinate();
         int amountOfMovement = this.move;
 
         if (this.canMove(initial, destination, amountOfMovement)) {
-            this.coordinate = destination;
+            this.setCoordinate(destination);
+            this.setMoveTurn(false);
             System.out.println("Movement successful!");
         } else {
             System.out.println("Impossible Movement ¬¬. Try with another destination...");
@@ -62,7 +64,7 @@ public class Player extends BaseCharacter implements ActionCharacter {
         }
 
         int increaseAttackPower = handEquipment.getAttackPower();
-        for (BaseBodyEquipment equipment : this.bodyEquipment) {
+        for (BaseBodyEquipment equipment : this.getBodyEquipment()) {
             if (null != equipment) {
                 increaseAttackPower = increaseAttackPower + equipment.getAttackPower();
             }
@@ -75,19 +77,19 @@ public class Player extends BaseCharacter implements ActionCharacter {
 
     @Override
     public int defense() {
-        if (Arrays.equals(new BaseHandEquipment[2], this.handEquipment) &&
-                Arrays.equals(new BaseBodyEquipment[2], this.bodyEquipment)) {
+        if (Arrays.equals(new BaseHandEquipment[2], this.getHandEquipment()) &&
+                Arrays.equals(new BaseBodyEquipment[2], this.getBodyEquipment())) {
             printDefense(this.defensePower);
             return this.defensePower;
         }
 
         int increaseDefensePower = 0;
-        for (BaseHandEquipment equipment : this.handEquipment) {
+        for (BaseHandEquipment equipment : this.getHandEquipment()) {
             if (null != equipment) {
                 increaseDefensePower = increaseDefensePower + equipment.getDefensePower();
             }
         }
-        for (BaseBodyEquipment equipment : this.bodyEquipment) {
+        for (BaseBodyEquipment equipment : this.getBodyEquipment()) {
             if (null != equipment) {
                 increaseDefensePower = increaseDefensePower + equipment.getDefensePower();
             }
@@ -99,17 +101,28 @@ public class Player extends BaseCharacter implements ActionCharacter {
     }
 
     @Override
-    public void reduceHealth(int healthToReduce) {
-        this.health = this.health - healthToReduce;
+    public void modifyHealth(int healthToModify) {
+        this.health = this.health + healthToModify;
     }
 
     @Override
     public void endTurn() {
         System.out.println("End Turn");
-        this.isFinishedTurn = true;
+        this.setFinishedTurn(Boolean.TRUE);
+        this.setMoveTurn(Boolean.FALSE);
+    }
+
+    @Override
+    public void newTurn() {
+        System.out.println("New Turn");
+        this.setFinishedTurn(Boolean.FALSE);
+        this.setMoveTurn(Boolean.TRUE);
     }
 
     private boolean canMove(Coordinate origin, Coordinate destination, int maxAmountOfMovement) {
+        if (origin.equals(destination)) {
+            return false;
+        }
         return maxAmountOfMovement >= origin.diff(destination);
     }
 

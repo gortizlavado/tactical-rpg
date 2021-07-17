@@ -11,8 +11,10 @@ public interface ActionCharacter {
 
     int defense();
 
-    void reduceHealth(int healthToReduce);
+    void modifyHealth(int healthToModify);
 
     void endTurn();
+
+    void newTurn();
 
 }

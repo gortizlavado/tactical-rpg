@@ -3,7 +3,7 @@ package tactical.equipment.body.jewel;
 import tactical.equipment.base.BaseBodyEquipment;
 import tactical.equipment.base.constants.EquipmentConstant;
 
-public class Ring extends BaseBodyEquipment {
+public final class Ring extends BaseBodyEquipment {
 
     private static final String RING = "Ring";
 

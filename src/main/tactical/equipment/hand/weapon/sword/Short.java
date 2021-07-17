@@ -3,7 +3,7 @@ package tactical.equipment.hand.weapon.sword;
 import tactical.equipment.base.BaseHandEquipment;
 import tactical.equipment.base.constants.EquipmentConstant;
 
-public class Short extends BaseHandEquipment {
+public final class Short extends BaseHandEquipment {
 
     private static final String NAME = "Short";
 
