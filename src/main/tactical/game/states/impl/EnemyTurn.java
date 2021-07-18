@@ -8,6 +8,8 @@ import tactical.models.Coordinate;
 import tactical.players.base.Player;
 import tactical.players.base.action.ActionEnum;
 
+import java.util.function.Predicate;
+
 public class EnemyTurn implements GameState {
 
     public static final String TURN_ENEMY = "TURN ENEMY";
@@ -22,7 +24,7 @@ public class EnemyTurn implements GameState {
         System.out.println("Any Enemy can do an action?");
         final long numberOfEnemyReady = context.getEnemies()
                 .stream()
-                .filter(player -> !player.isFinishedTurn())
+                .filter(Predicate.not(Player::isFinishedTurn))
                 .count();
         System.out.printf("There are a number of enemies ready: %s%n", numberOfEnemyReady);
         return numberOfEnemyReady > 0;

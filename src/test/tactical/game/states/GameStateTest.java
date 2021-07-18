@@ -59,6 +59,9 @@ class GameStateTest {
         state.execute(context, playerTest, ActionEnum.MOVE, new Coordinate(0, 5), null);
         Assertions.assertFalse(playerTest.isMoveTurn());
         Assertions.assertFalse(playerTest.isFinishedTurn());
+        final Player[][] board = context.getBoard().getBoard();
+        Assertions.assertNull(board[0][0]);
+        Assertions.assertEquals(playerTest.getName(), board[0][5].getName());
     }
 
     @Test
@@ -115,6 +118,25 @@ class GameStateTest {
         state.execute(context, playerTest, ActionEnum.ATTACK, attackCoordinate, playerTest.getHandEquipment()[0]);
         Assertions.assertEquals(initialHealth, enemyTest.getHealth());
         Assertions.assertTrue(playerTest.isFinishedTurn());
+    }
+
+    @Test
+    void shouldPlayerAttackAndKill_whenNewTurn() {
+        GameContext context = new GameContext(List.of(playerTest));
+        context.initiateGameContext("Game Test Kill", new SizeBoard(5, 5), 1, 1);
+        playerTest.newTurn();
+        final Coordinate attackCoordinate = new Coordinate(0, 4);
+        final List<Player> enemies = context.getEnemies();
+        Player enemyTest = enemies.get(0);
+        enemyTest.setCoordinate(attackCoordinate);
+        enemyTest.setHealth(10);
+
+        state = new PlayerTurn();
+        Assertions.assertTrue(state.apply(context));
+        state.execute(context, playerTest, ActionEnum.MOVE, new Coordinate(0, 3), null);
+        state.execute(context, playerTest, ActionEnum.ATTACK, attackCoordinate, playerTest.getHandEquipment()[0]);
+        Assertions.assertTrue(playerTest.isFinishedTurn());
+        Assertions.assertEquals(0, context.getEnemies().size());
     }
 
 }

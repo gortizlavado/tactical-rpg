@@ -5,7 +5,7 @@ import tactical.models.Coordinate;
 
 public interface ActionCharacter {
 
-    void move(final Coordinate coordinate);
+    boolean move(final Coordinate coordinate);
 
     int attack(final BaseHandEquipment equipment);
 

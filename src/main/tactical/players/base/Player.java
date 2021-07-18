@@ -38,10 +38,10 @@ public class Player extends BaseCharacter implements ActionCharacter {
     }
 
     @Override
-    public void move(final Coordinate destination) {
+    public boolean move(final Coordinate destination) {
         if (!this.isMoveTurn()) {
             System.out.println("Not have more movement ¬¬");
-            return;
+            return false;
         }
 
         Coordinate initial = this.getCoordinate();
@@ -51,8 +51,10 @@ public class Player extends BaseCharacter implements ActionCharacter {
             this.setCoordinate(destination);
             this.setMoveTurn(false);
             System.out.println("Movement successful!");
+            return true;
         } else {
             System.out.println("Impossible Movement ¬¬. Try with another destination...");
+            return false;
         }
     }
 
