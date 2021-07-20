@@ -1,12 +1,9 @@
 package tactical.game.states.impl;
 
-import tactical.equipment.base.BaseHandEquipment;
 import tactical.game.TacticalGame;
 import tactical.game.context.GameContext;
 import tactical.game.states.GameState;
-import tactical.models.Coordinate;
 import tactical.players.base.Player;
-import tactical.players.base.action.ActionEnum;
 
 public class EndGame implements GameState {
 
@@ -23,7 +20,7 @@ public class EndGame implements GameState {
     }
 
     @Override
-    public void execute(GameContext context, Player player, ActionEnum action, Coordinate coordinate, BaseHandEquipment handEquipment) {
+    public void execute(GameContext context, Player player) {
         context.setEndGame(Boolean.TRUE);
     }
 

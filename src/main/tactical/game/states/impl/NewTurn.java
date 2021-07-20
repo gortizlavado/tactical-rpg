@@ -1,13 +1,10 @@
 package tactical.game.states.impl;
 
 import lombok.NonNull;
-import tactical.equipment.base.BaseHandEquipment;
 import tactical.game.TacticalGame;
 import tactical.game.context.GameContext;
 import tactical.game.states.GameState;
-import tactical.models.Coordinate;
 import tactical.players.base.Player;
-import tactical.players.base.action.ActionEnum;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -31,7 +28,7 @@ public class NewTurn implements GameState {
     }
 
     @Override
-    public void execute(GameContext context, Player player, ActionEnum action, Coordinate coordinate, BaseHandEquipment handEquipment) {
+    public void execute(GameContext context, Player player) {
         incrementTurn(context::getTurnNumber, context::setTurnNumber);
         context.getPlayers().forEach(Player::newTurn);
         context.getEnemies().forEach(Player::newTurn);

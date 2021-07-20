@@ -9,7 +9,6 @@ import tactical.game.states.impl.NewTurn;
 import tactical.game.states.impl.PlayerTurn;
 import tactical.models.Coordinate;
 import tactical.players.base.Player;
-import tactical.players.base.action.ActionEnum;
 import tactical.players.base.character.BaseCharacter;
 import tactical.players.utils.PlayerCreatorUtil;
 
@@ -36,7 +35,7 @@ class GameStateTest {
         Assertions.assertTrue(context.getPlayers().stream().noneMatch(BaseCharacter::isMoveTurn));
         Assertions.assertTrue(context.getEnemies().stream().allMatch(Player::isFinishedTurn));
         Assertions.assertTrue(context.getEnemies().stream().noneMatch(BaseCharacter::isMoveTurn));
-        state.execute(context, null, null, null, null);
+        state.execute(context, null);
         Assertions.assertEquals(1, context.getTurnNumber());
         Assertions.assertTrue(context.getPlayers().stream().noneMatch(BaseCharacter::isFinishedTurn));
         Assertions.assertTrue(context.getPlayers().stream().allMatch(Player::isMoveTurn));
@@ -56,7 +55,7 @@ class GameStateTest {
         playerTest.newTurn();
         state = new PlayerTurn();
         Assertions.assertTrue(state.apply(context));
-        state.execute(context, playerTest, ActionEnum.MOVE, new Coordinate(0, 5), null);
+        state.execute(context, playerTest); //, ActionEnum.MOVE, new Coordinate(0, 5), null);
         Assertions.assertFalse(playerTest.isMoveTurn());
         Assertions.assertFalse(playerTest.isFinishedTurn());
         final Player[][] board = context.getBoard().getBoard();
@@ -69,10 +68,10 @@ class GameStateTest {
         playerTest.newTurn();
         state = new PlayerTurn();
         Assertions.assertTrue(state.apply(context));
-        state.execute(context, playerTest, ActionEnum.MOVE, new Coordinate(0, 5), null);
+        state.execute(context, playerTest); //, ActionEnum.MOVE, new Coordinate(0, 5), null);
         Assertions.assertFalse(playerTest.isMoveTurn());
         Assertions.assertFalse(playerTest.isFinishedTurn());
-        state.execute(context, playerTest, ActionEnum.MOVE, new Coordinate(0, 6), null);
+        state.execute(context, playerTest); //, ActionEnum.MOVE, new Coordinate(0, 6), null);
         Assertions.assertEquals(new Coordinate(0, 5), playerTest.getCoordinate());
     }
 
@@ -81,8 +80,8 @@ class GameStateTest {
         playerTest.newTurn();
         state = new PlayerTurn();
         Assertions.assertTrue(state.apply(context));
-        state.execute(context, playerTest, ActionEnum.MOVE, new Coordinate(0, 5), null);
-        state.execute(context, playerTest, ActionEnum.ATTACK, new Coordinate(0, 6), playerTest.getHandEquipment()[0]);
+        state.execute(context, playerTest); //, ActionEnum.MOVE, new Coordinate(0, 5), null);
+        state.execute(context, playerTest); //, ActionEnum.ATTACK, new Coordinate(0, 6), playerTest.getHandEquipment()[0]);
         Assertions.assertTrue(playerTest.isFinishedTurn());
     }
 
@@ -97,8 +96,8 @@ class GameStateTest {
 
         state = new PlayerTurn();
         Assertions.assertTrue(state.apply(context));
-        state.execute(context, playerTest, ActionEnum.MOVE, new Coordinate(0, 5), null);
-        state.execute(context, playerTest, ActionEnum.ATTACK, attackCoordinate, playerTest.getHandEquipment()[0]);
+        state.execute(context, playerTest); //, ActionEnum.MOVE, new Coordinate(0, 5), null);
+        state.execute(context, playerTest); //, ActionEnum.ATTACK, attackCoordinate, playerTest.getHandEquipment()[0]);
         Assertions.assertTrue(initialHealth > enemyTest.getHealth());
         Assertions.assertTrue(playerTest.isFinishedTurn());
     }
@@ -114,8 +113,8 @@ class GameStateTest {
 
         state = new PlayerTurn();
         Assertions.assertTrue(state.apply(context));
-        state.execute(context, playerTest, ActionEnum.MOVE, new Coordinate(0, 5), null);
-        state.execute(context, playerTest, ActionEnum.ATTACK, attackCoordinate, playerTest.getHandEquipment()[0]);
+        state.execute(context, playerTest); //, ActionEnum.MOVE, new Coordinate(0, 5), null);
+        state.execute(context, playerTest); //, ActionEnum.ATTACK, attackCoordinate, playerTest.getHandEquipment()[0]);
         Assertions.assertEquals(initialHealth, enemyTest.getHealth());
         Assertions.assertTrue(playerTest.isFinishedTurn());
     }
@@ -133,8 +132,8 @@ class GameStateTest {
 
         state = new PlayerTurn();
         Assertions.assertTrue(state.apply(context));
-        state.execute(context, playerTest, ActionEnum.MOVE, new Coordinate(0, 3), null);
-        state.execute(context, playerTest, ActionEnum.ATTACK, attackCoordinate, playerTest.getHandEquipment()[0]);
+        state.execute(context, playerTest); //, ActionEnum.MOVE, new Coordinate(0, 3), null);
+        state.execute(context, playerTest); //, ActionEnum.ATTACK, attackCoordinate, playerTest.getHandEquipment()[0]);
         Assertions.assertTrue(playerTest.isFinishedTurn());
         Assertions.assertEquals(0, context.getEnemies().size());
     }

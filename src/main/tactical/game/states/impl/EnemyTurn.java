@@ -1,12 +1,9 @@
 package tactical.game.states.impl;
 
-import tactical.equipment.base.BaseHandEquipment;
 import tactical.game.TacticalGame;
 import tactical.game.context.GameContext;
 import tactical.game.states.GameState;
-import tactical.models.Coordinate;
 import tactical.players.base.Player;
-import tactical.players.base.action.ActionEnum;
 
 import java.util.function.Predicate;
 
@@ -31,7 +28,7 @@ public class EnemyTurn implements GameState {
     }
 
     @Override
-    public void execute(GameContext context, Player player, ActionEnum action, Coordinate coordinate, BaseHandEquipment handEquipment) {
+    public void execute(GameContext context, Player player) {
         System.out.println("Enemy do an action");
         player.endTurn();
     }
