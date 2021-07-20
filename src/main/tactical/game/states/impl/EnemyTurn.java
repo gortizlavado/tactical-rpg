@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 
 public class EnemyTurn implements GameState {
 
-    public static final String TURN_ENEMY = "TURN ENEMY";
+    public static final String TURN_ENEMY = "--- TURN ENEMY ---";
 
     @Override
     public String fetchTurn() {

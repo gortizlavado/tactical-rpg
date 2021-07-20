@@ -109,14 +109,14 @@ public class Player extends BaseCharacter implements ActionCharacter {
 
     @Override
     public void endTurn() {
-        System.out.println("End Turn");
+        //System.out.println("End Turn");
         this.setFinishedTurn(Boolean.TRUE);
         this.setMoveTurn(Boolean.FALSE);
     }
 
     @Override
     public void newTurn() {
-        System.out.println("New Turn");
+        //System.out.println("New Turn");
         this.setFinishedTurn(Boolean.FALSE);
         this.setMoveTurn(Boolean.TRUE);
     }

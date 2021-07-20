@@ -1,5 +1,6 @@
 package tactical.game.states.impl;
 
+import lombok.NonNull;
 import tactical.equipment.base.BaseHandEquipment;
 import tactical.game.TacticalGame;
 import tactical.game.context.GameContext;
@@ -8,10 +9,13 @@ import tactical.models.Coordinate;
 import tactical.players.base.Player;
 import tactical.players.base.action.ActionEnum;
 
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
 public class NewTurn implements GameState {
 
-    public static final String NEW_TURN = "New Turn";
-    public static final int INCREMENT_TURN = 1;
+    public static final String NEW_TURN = "--- NEW TURN ---";
+    public static final int PLUS_ONE = 1;
 
     @Override
     public String fetchTurn() {
@@ -28,12 +32,14 @@ public class NewTurn implements GameState {
 
     @Override
     public void execute(GameContext context, Player player, ActionEnum action, Coordinate coordinate, BaseHandEquipment handEquipment) {
-        //Function<GameContext, Integer> func = context::getTurnNumber, context::setTurnNumber;
-        final int actualTurn = context.getTurnNumber();
-        context.setTurnNumber(actualTurn + INCREMENT_TURN);
-        //TODO bi-function newTurn
+        incrementTurn(context::getTurnNumber, context::setTurnNumber);
         context.getPlayers().forEach(Player::newTurn);
         context.getEnemies().forEach(Player::newTurn);
+        System.out.println("--- TURN " + context.getTurnNumber() + " ---");
+    }
+
+    private void incrementTurn(@NonNull Supplier<Integer> source, @NonNull Consumer<Integer> destination) {
+        destination.accept(source.get() + PLUS_ONE);
     }
 
     @Override

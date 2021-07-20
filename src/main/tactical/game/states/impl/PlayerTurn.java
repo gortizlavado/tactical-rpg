@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 
 public class PlayerTurn implements GameState {
 
-    public static final String TURN_PLAYER = "Turn Player";
+    public static final String TURN_PLAYER = "--- TURN PLAYER ---";
 
     @Override
     public String fetchTurn() {

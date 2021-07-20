@@ -22,6 +22,7 @@ public class GameContext {
     private BoardGame board;
     private List<Player> players;
     private List<Player> enemies;
+    private boolean endGame;
 
     public GameContext(List<Player> players) {
         this.players = players;
@@ -37,7 +38,8 @@ public class GameContext {
         enemies.forEach(enemy -> enemy.setCoordinate(new Coordinate(i.getAndIncrement(), sizeBoard.getLength() - 1)));
         this.board = boardProvider.createBoardGameBy(name, sizeBoard, this.players, this.enemies);
 
-        players.forEach(Player::endTurn);
-        enemies.forEach(Player::endTurn);
+        this.players.forEach(Player::endTurn);
+        this.enemies.forEach(Player::endTurn);
+        this.endGame = false;
     }
 }
