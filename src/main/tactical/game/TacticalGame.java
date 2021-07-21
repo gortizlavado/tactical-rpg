@@ -5,13 +5,14 @@ import lombok.Setter;
 import tactical.equipment.body.armor.Jacket;
 import tactical.equipment.body.jewel.Ring;
 import tactical.equipment.hand.shield.Wood;
-import tactical.equipment.hand.weapon.sword.Short;
+import tactical.equipment.hand.weapon.sword.SuperShort;
 import tactical.game.board.model.SizeBoard;
 import tactical.game.context.GameContext;
 import tactical.game.states.GameState;
 import tactical.game.states.impl.EnemyTurn;
 import tactical.game.states.impl.NewTurn;
 import tactical.game.states.impl.PlayerTurn;
+import tactical.models.Coordinate;
 import tactical.players.Thanosh;
 import tactical.players.base.Player;
 
@@ -33,19 +34,20 @@ public class TacticalGame {
     }
 
     public void init(String name) {
-        Player thanosh = new Thanosh();
+        // Ask for size board
+        SizeBoard sizeBoard = new SizeBoard(30, 5);
+        Player thanosh = new Thanosh(7);
         thanosh.setEquipment(new Jacket());
         thanosh.setEquipment(new Ring());
-        thanosh.setEquipment(new Short());
+        thanosh.setEquipment(new SuperShort());
         thanosh.setEquipment(new Wood());
-        // Ask for players
+        thanosh.setCoordinate(new Coordinate(0, 0));
+        // Ask for players and coordinate
         List<Player> playerList = List.of(thanosh);
         context = new GameContext(playerList);
-        // Ask for size board
-        SizeBoard sizeBoard = new SizeBoard(30, 30);
         // Ask for numbers of enemies and level
-        int enemiesNumbers = 10;
-        int enemiesLevel = 5;
+        int enemiesNumbers = 1;
+        int enemiesLevel = 1;
         context.initiateGameContext(name, sizeBoard, enemiesNumbers, enemiesLevel);
     }
 

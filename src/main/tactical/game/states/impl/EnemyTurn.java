@@ -35,7 +35,6 @@ public class EnemyTurn implements GameState {
 
     @Override
     public void next(TacticalGame tacticalGame) {
-        System.out.println("End turn for this enemy");
-        tacticalGame.setState(new NewTurn());
+        tacticalGame.setState(new EndGame());
     }
 }

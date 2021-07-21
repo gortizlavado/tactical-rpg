@@ -45,6 +45,17 @@ public class BaseCharacter extends StatsCharacter {
         this.coordinate = new Coordinate(0, 0);
     }
 
+    public BaseCharacter(boolean finishedTurn, String name, int level, int health, int attackPower,
+                         int defensePower) {
+        super(name, level, health, attackPower, defensePower);
+        this.finishedTurn = finishedTurn;
+        this.coordinate = new Coordinate(0, 0);
+    }
+
+    public BaseCharacter(String name, int level) {
+        super(name, level);
+    }
+
     public void setEquipment(BaseEquipment[] equipments) {
         if (handEquipment.length > 2) {
             return;

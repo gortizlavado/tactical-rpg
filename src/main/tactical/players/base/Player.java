@@ -24,8 +24,8 @@ public class Player extends BaseCharacter implements ActionCharacter {
         super(isFinishedTurn, name, BEGINNING_LEVEL, health, attackPower, defensePower, move, coordinate);
     }
 
-    public Player(boolean isFinishedTurn, String name, int health, int attackPower, int defensePower, int move) {
-        super(isFinishedTurn, name, BEGINNING_LEVEL, health, attackPower, defensePower, move);
+    public Player(boolean isFinishedTurn, String name, int health, int attackPower, int defensePower) {
+        super(isFinishedTurn, name, BEGINNING_LEVEL, health, attackPower, defensePower);
     }
 
     public Player(String name, int level, int health, int attackPower, int defensePower, int move) {
@@ -37,6 +37,10 @@ public class Player extends BaseCharacter implements ActionCharacter {
         super(isFinishedTurn, name, level, health, attackPower, defensePower, move, coordinate, weapon, armor);
     }
 
+    public Player(String name, int level) {
+        super(name, level);
+    }
+
     @Override
     public boolean move(final Coordinate destination) {
         if (!this.isMoveTurn()) {
@@ -44,10 +48,8 @@ public class Player extends BaseCharacter implements ActionCharacter {
             return false;
         }
 
-        Coordinate initial = this.getCoordinate();
         int amountOfMovement = this.move;
-
-        if (this.canMove(initial, destination, amountOfMovement)) {
+        if (this.canMove(destination, amountOfMovement)) {
             this.setCoordinate(destination);
             this.setMoveTurn(false);
             System.out.println("Movement successful!");
@@ -109,23 +111,30 @@ public class Player extends BaseCharacter implements ActionCharacter {
 
     @Override
     public void endTurn() {
-        //System.out.println("End Turn");
         this.setFinishedTurn(Boolean.TRUE);
         this.setMoveTurn(Boolean.FALSE);
     }
 
     @Override
     public void newTurn() {
-        //System.out.println("New Turn");
         this.setFinishedTurn(Boolean.FALSE);
         this.setMoveTurn(Boolean.TRUE);
     }
 
-    private boolean canMove(Coordinate origin, Coordinate destination, int maxAmountOfMovement) {
+    private boolean canMove(Coordinate destination, int maxAmountOfMovement) {
+        Coordinate origin = this.getCoordinate();
         if (origin.equals(destination)) {
             return false;
         }
         return maxAmountOfMovement >= origin.diff(destination);
+    }
+
+    public boolean canAttack(Coordinate destination, int handRange) {
+        Coordinate origin = this.getCoordinate();
+        if (origin.equals(destination)) {
+            return false;
+        }
+        return handRange >= origin.diff(destination);
     }
 
     private void printAttack(int power) {

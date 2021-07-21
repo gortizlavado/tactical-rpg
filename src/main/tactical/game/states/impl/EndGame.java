@@ -26,6 +26,6 @@ public class EndGame implements GameState {
 
     @Override
     public void next(TacticalGame tacticalGame) {
-
+        tacticalGame.setState(new NewTurn());
     }
 }

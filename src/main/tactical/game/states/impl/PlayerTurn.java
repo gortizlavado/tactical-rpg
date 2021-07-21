@@ -49,9 +49,14 @@ public class PlayerTurn implements GameState {
                 execute(context, player);
                 break;
             case ATTACK:
-                coordinate = service.askForCoordinate();
                 BaseHandEquipment handEquipment = service.askForHandEquipment(player);
-                service.doAttackAction(context, player, coordinate, handEquipment);
+                coordinate = service.askForCoordinate();
+                if (player.canAttack(coordinate, handEquipment.getRange())) {
+                    service.doAttackAction(context, player, coordinate, handEquipment);
+                } else {
+                    System.out.println("Impossible Attack ¬¬. Try with another near target...");
+                    execute(context, player);
+                }
                 break;
             case END:
                 System.out.println("End action");
@@ -65,7 +70,6 @@ public class PlayerTurn implements GameState {
 
     @Override
     public void next(TacticalGame tacticalGame) {
-        System.out.println("End turn for this player");
         tacticalGame.setState(new EnemyTurn());
     }
 }
