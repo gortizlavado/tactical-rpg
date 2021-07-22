@@ -2,6 +2,7 @@ package tactical.game.states;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import tactical.game.board.model.SizeBoard;
 import tactical.game.context.GameContext;
@@ -14,6 +15,7 @@ import tactical.players.utils.PlayerCreatorUtil;
 
 import java.util.List;
 
+@Disabled
 class GameStateTest {
 
     private GameContext context;

@@ -35,7 +35,8 @@ public class GameContext {
         this.enemies = enemiesProvider.createEnemiesStatsBy(enemiesNumbers, enemiesLevel);
         //TODO better way to do this
         AtomicInteger i = new AtomicInteger();
-        enemies.forEach(enemy -> enemy.setCoordinate(new Coordinate(i.getAndIncrement(), sizeBoard.getLength() - 1)));
+        enemies.forEach(enemy -> enemy.setCoordinate(
+                new Coordinate(sizeBoard.getHeight() - 1 - i.getAndIncrement(), sizeBoard.getLength() - 1)));
         this.board = boardProvider.createBoardGameBy(name, sizeBoard, this.players, this.enemies);
 
         this.players.forEach(Player::endTurn);

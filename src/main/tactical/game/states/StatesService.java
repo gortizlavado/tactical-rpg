@@ -2,6 +2,7 @@ package tactical.game.states;
 
 import tactical.equipment.base.BaseHandEquipment;
 import tactical.exception.ActionNotFoundException;
+import tactical.game.board.helper.BoardPrint;
 import tactical.game.context.GameContext;
 import tactical.models.Coordinate;
 import tactical.players.base.Player;
@@ -35,12 +36,18 @@ public class StatesService {
         }
     }
 
-    public Coordinate askForCoordinate() {
+    public Coordinate askForCoordinate(Player[][] board) {
         System.out.println("Choose coordinate...");
         System.out.println("x: ");
         int x = input.nextInt();
         System.out.println("y: ");
         int y = input.nextInt();
+
+        if (x > board[0].length || y > board.length) {
+            System.out.println("Impossible Coordinate ¬¬. Try with another...");
+            askForCoordinate(board);
+        }
+
         return new Coordinate(x, y);
     }
 
@@ -48,7 +55,15 @@ public class StatesService {
         System.out.println("Choose hand equipment...");
         System.out.println(Arrays.toString(player.getHandEquipment()));
         int handChosen = input.nextInt();
-        return player.getHandEquipment()[handChosen];
+
+        BaseHandEquipment handEquipment = null;
+        try {
+            handEquipment = player.getHandEquipment()[handChosen];
+        } catch (ArrayIndexOutOfBoundsException iobe) {
+            System.out.println("Impossible Equipment ¬¬. Try with another...");
+            askForHandEquipment(player);
+        }
+        return handEquipment;
     }
 
     public void doMoveAction(GameContext context, Player player, Coordinate coordinate) {
@@ -57,6 +72,7 @@ public class StatesService {
             final Player[][] board = context.getBoard().getBoard();
             board[oldCoordinate.getX()][oldCoordinate.getY()] = null;
             board[coordinate.getX()][coordinate.getY()] = player;
+            BoardPrint.print(board);
         }
     }
 

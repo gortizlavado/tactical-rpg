@@ -6,6 +6,7 @@ import tactical.equipment.body.armor.Jacket;
 import tactical.equipment.body.jewel.Ring;
 import tactical.equipment.hand.shield.Wood;
 import tactical.equipment.hand.weapon.sword.SuperShort;
+import tactical.game.board.helper.BoardPrint;
 import tactical.game.board.model.SizeBoard;
 import tactical.game.context.GameContext;
 import tactical.game.states.GameState;
@@ -35,7 +36,8 @@ public class TacticalGame {
 
     public void init(String name) {
         // Ask for size board
-        SizeBoard sizeBoard = new SizeBoard(30, 5);
+        SizeBoard sizeBoard = new SizeBoard(6, 5);
+        System.out.printf("Select Size Board: height=%s length=%s%n", sizeBoard.getHeight(), sizeBoard.getLength());
         Player thanosh = new Thanosh(7);
         thanosh.setEquipment(new Jacket());
         thanosh.setEquipment(new Ring());
@@ -46,9 +48,10 @@ public class TacticalGame {
         List<Player> playerList = List.of(thanosh);
         context = new GameContext(playerList);
         // Ask for numbers of enemies and level
-        int enemiesNumbers = 1;
+        int enemiesNumbers = 3;
         int enemiesLevel = 1;
         context.initiateGameContext(name, sizeBoard, enemiesNumbers, enemiesLevel);
+        BoardPrint.print(context.getBoard().getBoard());
     }
 
     public void play() {
