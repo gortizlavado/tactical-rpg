@@ -1,19 +1,24 @@
 package tactical.game.enemy;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 import tactical.players.base.Player;
 
 import java.util.List;
 import java.util.stream.Stream;
 
+@ExtendWith(MockitoExtension.class)
 class EnemiesProviderTest {
 
-    private EnemiesProvider enemiesProvider = new EnemiesProvider();
+    @InjectMocks
+    private EnemiesProvider enemiesProvider;
 
     @ParameterizedTest
     @MethodSource("createEnemiesArguments")
@@ -21,7 +26,7 @@ class EnemiesProviderTest {
         final List<Player> enemies = enemiesProvider.createEnemiesStatsBy(5, level);
 
         for (Player enemy: enemies) {
-            Assert.assertThat(enemy.getName(), CoreMatchers.containsString("Enemy"));
+            MatcherAssert.assertThat(enemy.getName(), CoreMatchers.containsString("Enemy"));
             Assertions.assertEquals(level, enemy.getLevel());
             Assertions.assertEquals(health, enemy.getHealth());
             Assertions.assertEquals(attack, enemy.getAttackPower());

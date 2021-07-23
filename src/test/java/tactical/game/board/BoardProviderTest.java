@@ -1,9 +1,13 @@
 package tactical.game.board;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import tactical.exception.BoardCreationException;
 import tactical.game.board.model.BoardGame;
 import tactical.models.Coordinate;
@@ -14,9 +18,11 @@ import tactical.players.utils.PlayerCreatorUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+@ExtendWith(MockitoExtension.class)
 class BoardProviderTest {
 
-    BoardProvider boardProvider = new BoardProvider();
+    @InjectMocks
+    BoardProvider boardProvider;
 
     @Test
     void shouldCreateBoardGame() {
@@ -50,7 +56,7 @@ class BoardProviderTest {
                 listOfPlayers,
                 listOfEnemies));
 
-        Assert.assertThat(exception.getMessage(), CoreMatchers.containsString("it has to have a name"));
+        MatcherAssert.assertThat(exception.getMessage(), CoreMatchers.containsString("it has to have a name"));
     }
 
     @Test
@@ -65,7 +71,7 @@ class BoardProviderTest {
                 listOfPlayers,
                 listOfEnemies));
 
-        Assert.assertThat(exception.getMessage(), CoreMatchers.containsString("height=0, length=20"));
+        MatcherAssert.assertThat(exception.getMessage(), CoreMatchers.containsString("height=0, length=20"));
     }
 
     @Test
@@ -78,7 +84,7 @@ class BoardProviderTest {
                 new ArrayList<>(),
                 listOfEnemies));
 
-        Assert.assertThat(exception.getMessage(), CoreMatchers.containsString("it has to have any players"));
+        MatcherAssert.assertThat(exception.getMessage(), CoreMatchers.containsString("it has to have any players"));
     }
 
     @Test
@@ -91,7 +97,7 @@ class BoardProviderTest {
                 listOfPlayers,
                 new ArrayList<>()));
 
-        Assert.assertThat(exception.getMessage(), CoreMatchers.containsString("it has to have any enemies"));
+        MatcherAssert.assertThat(exception.getMessage(), CoreMatchers.containsString("it has to have any enemies"));
     }
 
     private void assertCoordinate(Player player, Player[][] board) {

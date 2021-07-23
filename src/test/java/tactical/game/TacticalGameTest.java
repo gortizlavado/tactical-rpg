@@ -2,13 +2,15 @@ package tactical.game;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @Disabled
 class TacticalGameTest {
 
-    private TacticalGame tacticalGame = new TacticalGame();
+    @InjectMocks
+    private TacticalGame tacticalGame;
 
     @Test
     void play() {

@@ -4,23 +4,40 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import tactical.game.board.model.SizeBoard;
 import tactical.game.context.GameContext;
 import tactical.game.states.impl.NewTurn;
 import tactical.game.states.impl.PlayerTurn;
 import tactical.models.Coordinate;
 import tactical.players.base.Player;
+import tactical.players.base.action.ActionEnum;
 import tactical.players.base.character.BaseCharacter;
 import tactical.players.utils.PlayerCreatorUtil;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
+import java.util.Scanner;
 
-@Disabled
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+
+@ExtendWith(MockitoExtension.class)
 class GameStateTest {
 
     private GameContext context;
     private GameState state;
     private Player playerTest;
+
+    @InjectMocks
+    private PlayerTurn playerTurn;
+
+    @Mock
+    private StatesService statesService;
 
     @BeforeEach
     void setUp() {
@@ -54,10 +71,12 @@ class GameStateTest {
 
     @Test
     void shouldPlayerMove_whenNewTurn() {
+        Mockito.when(statesService.askForAction(eq(playerTest))).thenReturn(ActionEnum.MOVE);
+        Mockito.when(statesService.askForCoordinate(eq(context.getBoard().getBoard()))).thenReturn(new Coordinate(0, 5));
         playerTest.newTurn();
-        state = new PlayerTurn();
-        Assertions.assertTrue(state.apply(context));
-        state.execute(context, playerTest); //, ActionEnum.MOVE, new Coordinate(0, 5), null);
+
+        Assertions.assertTrue(playerTurn.apply(context));
+        playerTurn.execute(context, playerTest);
         Assertions.assertFalse(playerTest.isMoveTurn());
         Assertions.assertFalse(playerTest.isFinishedTurn());
         final Player[][] board = context.getBoard().getBoard();
@@ -67,13 +86,14 @@ class GameStateTest {
 
     @Test
     void shouldPlayerNotMoveTwice_whenNewTurn() {
+        Mockito.when(statesService.askForAction(eq(playerTest))).thenReturn(ActionEnum.MOVE);
+        Mockito.when(statesService.askForCoordinate(eq(context.getBoard().getBoard()))).thenReturn(new Coordinate(0, 5));
         playerTest.newTurn();
-        state = new PlayerTurn();
-        Assertions.assertTrue(state.apply(context));
-        state.execute(context, playerTest); //, ActionEnum.MOVE, new Coordinate(0, 5), null);
+        Assertions.assertTrue(playerTurn.apply(context));
+        playerTurn.execute(context, playerTest); //, ActionEnum.MOVE, new Coordinate(0, 5), null);
         Assertions.assertFalse(playerTest.isMoveTurn());
         Assertions.assertFalse(playerTest.isFinishedTurn());
-        state.execute(context, playerTest); //, ActionEnum.MOVE, new Coordinate(0, 6), null);
+        playerTurn.execute(context, playerTest); //, ActionEnum.MOVE, new Coordinate(0, 6), null);
         Assertions.assertEquals(new Coordinate(0, 5), playerTest.getCoordinate());
     }
 
