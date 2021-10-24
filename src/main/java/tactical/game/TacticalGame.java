@@ -10,17 +10,14 @@ import tactical.game.board.helper.BoardPrint;
 import tactical.game.board.model.SizeBoard;
 import tactical.game.context.GameContext;
 import tactical.game.states.GameState;
-import tactical.game.states.impl.EnemyTurn;
+import tactical.game.states.PlayerState;
 import tactical.game.states.impl.NewTurn;
-import tactical.game.states.impl.PlayerTurn;
 import tactical.models.Coordinate;
 import tactical.players.Thanosh;
 import tactical.players.base.Player;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 @Setter
 public class TacticalGame {
@@ -59,30 +56,12 @@ public class TacticalGame {
         while(!context.isEndGame()) {
             if (state.apply(context)) {
                 System.out.println(state.fetchTurn());
-                Player player = null;
-                if (state instanceof PlayerTurn) {
-                    player = askForPlayer(context.getPlayers()
-                            .stream()
-                            .filter(Predicate.not(Player::isFinishedTurn))
-                            .collect(Collectors.toList()));
-
-                } else if (state instanceof EnemyTurn) {
-                    player = askForPlayer(context.getEnemies()
-                            .stream()
-                            .filter(Predicate.not(Player::isFinishedTurn))
-                            .collect(Collectors.toList()));
+                if (state instanceof PlayerState) {
+                    ((PlayerState) state).choosePlayer(context);
                 }
-                state.execute(context, player);
+                state.execute(context);
             }
             state.next(this);
         }
     }
-
-    private Player askForPlayer(List<Player> playerList) {
-        System.out.println(playerList);
-        System.out.println("Choose one of player in this list: ");
-        int playerChosen = input.nextInt();
-        return playerList.get(playerChosen);
-    }
-
 }

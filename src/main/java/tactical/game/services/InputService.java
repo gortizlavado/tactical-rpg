@@ -1,23 +1,28 @@
-package tactical.game.states;
+package tactical.game.services;
 
 import tactical.equipment.base.BaseHandEquipment;
 import tactical.exception.ActionNotFoundException;
-import tactical.game.board.helper.BoardPrint;
-import tactical.game.context.GameContext;
 import tactical.models.Coordinate;
 import tactical.players.base.Player;
 import tactical.players.base.action.ActionEnum;
 
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
 import java.util.Scanner;
 
-public class StatesService {
+public class InputService {
 
     private Scanner input;
 
-    public StatesService() {
+    public InputService() {
         input = new Scanner(System.in);
+    }
+
+    public Player askForPlayer(List<Player> playerList) {
+        System.out.println(playerList);
+        System.out.println("Choose one of player in this list: ");
+        int playerChosen = input.nextInt();
+        return playerList.get(playerChosen);
     }
 
     public ActionEnum askForAction(Player player) {
@@ -64,44 +69,6 @@ public class StatesService {
             askForHandEquipment(player);
         }
         return handEquipment;
-    }
-
-    public void doMoveAction(GameContext context, Player player, Coordinate coordinate) {
-        final Coordinate oldCoordinate = player.getCoordinate();
-        if (player.move(coordinate)) {
-            final Player[][] board = context.getBoard().getBoard();
-            board[oldCoordinate.getX()][oldCoordinate.getY()] = null;
-            board[coordinate.getX()][coordinate.getY()] = player;
-            BoardPrint.print(board);
-        }
-    }
-
-    public void doAttackAction(GameContext context, Player player, Coordinate coordinate, BaseHandEquipment handEquipment) {
-        final Player[][] board = context.getBoard().getBoard();
-        final Player enemy = board[coordinate.getX()][coordinate.getY()];
-        player.endTurn();
-        if (Objects.equals(null, enemy)) {
-            System.out.println("There is not an enemy... :(");
-            return;
-        }
-
-        System.out.println("Enemy health: " + enemy.getHealth());
-        final int attackPower = player.attack(handEquipment);
-        final int defensePower = enemy.defense();
-        final int healthToModify = defensePower - attackPower;
-        if (healthToModify <= 0) {
-            System.out.println("Damage: " + healthToModify);
-            enemy.modifyHealth(healthToModify);
-        }
-
-        final int enemyHealthAfter = enemy.getHealth();
-        if (enemyHealthAfter > 0) {
-            System.out.println("Enemy health: " + enemyHealthAfter);
-        } else {
-            System.out.println("Enemy killed!");
-            board[coordinate.getX()][coordinate.getY()] = null;
-            context.getEnemies().remove(enemy);
-        }
     }
 
 }

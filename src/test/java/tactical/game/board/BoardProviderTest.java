@@ -6,12 +6,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tactical.exception.BoardCreationException;
 import tactical.game.board.model.BoardGame;
-import tactical.models.Coordinate;
 import tactical.game.board.model.SizeBoard;
+import tactical.models.Coordinate;
 import tactical.players.base.Player;
 import tactical.players.utils.PlayerCreatorUtil;
 

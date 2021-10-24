@@ -28,7 +28,7 @@ public class NewTurn implements GameState {
     }
 
     @Override
-    public void execute(GameContext context, Player player) {
+    public void execute(GameContext context) {
         incrementTurn(context::getTurnNumber, context::setTurnNumber);
         context.getPlayers().forEach(Player::newTurn);
         context.getEnemies().forEach(Player::newTurn);

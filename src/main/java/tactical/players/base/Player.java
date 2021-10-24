@@ -42,7 +42,7 @@ public class Player extends BaseCharacter implements ActionCharacter {
     }
 
     @Override
-    public boolean move(final Coordinate destination) {
+    public final boolean move(final Coordinate destination) {
         if (!this.isMoveTurn()) {
             System.out.println("Not have more movement ¬¬");
             return false;
@@ -61,7 +61,7 @@ public class Player extends BaseCharacter implements ActionCharacter {
     }
 
     @Override
-    public int attack(final BaseHandEquipment handEquipment) {
+    public final int attack(final BaseHandEquipment handEquipment) {
         if (null == handEquipment) {
             printAttack(this.attackPower);
             return this.attackPower;
@@ -80,7 +80,7 @@ public class Player extends BaseCharacter implements ActionCharacter {
     }
 
     @Override
-    public int defense() {
+    public final int defense() {
         if (Arrays.equals(new BaseHandEquipment[2], this.getHandEquipment()) &&
                 Arrays.equals(new BaseBodyEquipment[2], this.getBodyEquipment())) {
             printDefense(this.defensePower);
@@ -105,20 +105,28 @@ public class Player extends BaseCharacter implements ActionCharacter {
     }
 
     @Override
-    public void modifyHealth(int healthToModify) {
+    public final void modifyHealth(int healthToModify) {
         this.health = this.health + healthToModify;
     }
 
     @Override
-    public void endTurn() {
+    public final void endTurn() {
         this.setFinishedTurn(Boolean.TRUE);
         this.setMoveTurn(Boolean.FALSE);
     }
 
     @Override
-    public void newTurn() {
+    public final void newTurn() {
         this.setFinishedTurn(Boolean.FALSE);
         this.setMoveTurn(Boolean.TRUE);
+    }
+
+    public final boolean canAttack(Coordinate destination, int handRange) {
+        Coordinate origin = this.getCoordinate();
+        if (origin.equals(destination)) {
+            return false;
+        }
+        return handRange >= origin.diff(destination);
     }
 
     private boolean canMove(Coordinate destination, int maxAmountOfMovement) {
@@ -127,14 +135,6 @@ public class Player extends BaseCharacter implements ActionCharacter {
             return false;
         }
         return maxAmountOfMovement >= origin.diff(destination);
-    }
-
-    public boolean canAttack(Coordinate destination, int handRange) {
-        Coordinate origin = this.getCoordinate();
-        if (origin.equals(destination)) {
-            return false;
-        }
-        return handRange >= origin.diff(destination);
     }
 
     private void printAttack(int power) {

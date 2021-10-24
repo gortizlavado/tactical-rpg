@@ -2,8 +2,8 @@ package tactical.players.utils;
 
 import tactical.equipment.base.BaseBodyEquipment;
 import tactical.equipment.base.BaseHandEquipment;
-import tactical.players.base.Player;
 import tactical.models.Coordinate;
+import tactical.players.base.Player;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -95,7 +95,7 @@ public class PlayerCreatorUtil {
         return new BaseBodyEquipment("Ring", 1, 0);
     }
 
-    private static BaseHandEquipment createTestHandEquipmentWithSword() {
+    public static BaseHandEquipment createTestHandEquipmentWithSword() {
         return new BaseHandEquipment("Sword", 10, 0, 1);
     }
 

@@ -3,7 +3,6 @@ package tactical.game.states.impl;
 import tactical.game.TacticalGame;
 import tactical.game.context.GameContext;
 import tactical.game.states.GameState;
-import tactical.players.base.Player;
 
 public class EndGame implements GameState {
 
@@ -20,7 +19,7 @@ public class EndGame implements GameState {
     }
 
     @Override
-    public void execute(GameContext context, Player player) {
+    public void execute(GameContext context) {
         context.setEndGame(Boolean.TRUE);
     }
 

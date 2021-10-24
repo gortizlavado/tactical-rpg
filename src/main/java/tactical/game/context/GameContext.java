@@ -23,6 +23,7 @@ public class GameContext {
     private List<Player> players;
     private List<Player> enemies;
     private boolean endGame;
+    private Player playerChoose;
 
     public GameContext(List<Player> players) {
         this.players = players;

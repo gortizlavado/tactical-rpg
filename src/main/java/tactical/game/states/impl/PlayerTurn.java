@@ -3,22 +3,27 @@ package tactical.game.states.impl;
 import tactical.equipment.base.BaseHandEquipment;
 import tactical.game.TacticalGame;
 import tactical.game.context.GameContext;
+import tactical.game.services.ActionService;
+import tactical.game.services.InputService;
 import tactical.game.states.GameState;
-import tactical.game.states.StatesService;
+import tactical.game.states.PlayerState;
 import tactical.models.Coordinate;
 import tactical.players.base.Player;
 import tactical.players.base.action.ActionEnum;
 
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-public class PlayerTurn implements GameState {
+public class PlayerTurn implements GameState, PlayerState {
 
     public static final String TURN_PLAYER = "--- TURN PLAYER ---";
 
-    private final StatesService service;
+    private InputService inputService;
+    private final ActionService actionService;
 
     public PlayerTurn() {
-        this.service = new StatesService();
+        this.inputService = new InputService();
+        this.actionService = new ActionService();
     }
 
     @Override
@@ -38,24 +43,25 @@ public class PlayerTurn implements GameState {
     }
 
     @Override
-    public void execute(GameContext context, Player player) {
+    public void execute(GameContext context) {
+        Player player = context.getPlayerChoose();
         System.out.printf("Player choose for doing an action: %s%n", player.getName());
-        ActionEnum action = service.askForAction(player);
+        ActionEnum action = inputService.askForAction(player);
         Coordinate coordinate;
         switch (action) {
             case MOVE:
-                coordinate = service.askForCoordinate(context.getBoard().getBoard());
-                service.doMoveAction(context, player, coordinate);
-                execute(context, player);
+                coordinate = inputService.askForCoordinate(context.getBoard().getBoard());
+                actionService.doMoveAction(context, player, coordinate);
+                execute(context);
                 break;
             case ATTACK:
-                BaseHandEquipment handEquipment = service.askForHandEquipment(player);
-                coordinate = service.askForCoordinate(context.getBoard().getBoard());
+                BaseHandEquipment handEquipment = inputService.askForHandEquipment(player);
+                coordinate = inputService.askForCoordinate(context.getBoard().getBoard());
                 if (player.canAttack(coordinate, handEquipment.getRange())) {
-                    service.doAttackAction(context, player, coordinate, handEquipment);
+                    actionService.doAttackAction(context, player, coordinate, handEquipment);
                 } else {
                     System.out.println("Impossible Attack ¬¬. Try with another near target...");
-                    execute(context, player);
+                    execute(context);
                 }
                 break;
             case END:
@@ -71,5 +77,14 @@ public class PlayerTurn implements GameState {
     @Override
     public void next(TacticalGame tacticalGame) {
         tacticalGame.setState(new EnemyTurn());
+    }
+
+    @Override
+    public void choosePlayer(GameContext context) {
+        Player playerChosen = inputService.askForPlayer(context.getPlayers()
+                .stream()
+                .filter(Predicate.not(Player::isFinishedTurn))
+                .collect(Collectors.toList()));
+        context.setPlayerChoose(playerChosen);
     }
 }
