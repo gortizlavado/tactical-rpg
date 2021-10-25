@@ -21,17 +21,17 @@ public class NewTurn implements GameState {
 
     @Override
     public boolean apply(GameContext context) {
-        return context.getPlayers()
+        return context.getCharactersMap().get(GameContext.PLAYER_KEY)
                     .stream().allMatch(Player::isFinishedTurn) &&
-                context.getEnemies()
+                context.getCharactersMap().get(GameContext.ENEMY_KEY)
                     .stream().allMatch(Player::isFinishedTurn);
     }
 
     @Override
     public void execute(GameContext context) {
         incrementTurn(context::getTurnNumber, context::setTurnNumber);
-        context.getPlayers().forEach(Player::newTurn);
-        context.getEnemies().forEach(Player::newTurn);
+        context.getCharactersMap().get(GameContext.PLAYER_KEY).forEach(Player::newTurn);
+        context.getCharactersMap().get(GameContext.ENEMY_KEY).forEach(Player::newTurn);
         System.out.println("--- TURN " + context.getTurnNumber() + " ---");
     }
 

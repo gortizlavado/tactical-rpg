@@ -28,7 +28,7 @@ public class EnemyTurn implements GameState, PlayerState {
     @Override
     public boolean apply(GameContext context) {
         System.out.println("Any Enemy can do an action?");
-        final long numberOfEnemyReady = context.getEnemies()
+        final long numberOfEnemyReady = context.getCharactersMap().get(GameContext.ENEMY_KEY)
                 .stream()
                 .filter(Predicate.not(Player::isFinishedTurn))
                 .count();
@@ -49,7 +49,7 @@ public class EnemyTurn implements GameState, PlayerState {
 
     @Override
     public void choosePlayer(GameContext context) {
-        Player enemyChosen = inputService.askForPlayer(context.getEnemies()
+        Player enemyChosen = inputService.askForPlayer(context.getCharactersMap().get(GameContext.ENEMY_KEY)
                 .stream()
                 .filter(Predicate.not(Player::isFinishedTurn))
                 .collect(Collectors.toList()));

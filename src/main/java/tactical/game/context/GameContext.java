@@ -10,7 +10,9 @@ import tactical.game.enemy.EnemiesProvider;
 import tactical.models.Coordinate;
 import tactical.players.base.Player;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
@@ -18,30 +20,33 @@ import java.util.concurrent.atomic.AtomicInteger;
 @ToString
 public class GameContext {
 
+    public final static String PLAYER_KEY = "players";
+    public final static String ENEMY_KEY = "enemies";
+
     private int turnNumber;
     private BoardGame board;
-    private List<Player> players;
-    private List<Player> enemies;
+    private Map<String, List<Player>> charactersMap;
     private boolean endGame;
     private Player playerChoose;
 
     public GameContext(List<Player> players) {
-        this.players = players;
+        charactersMap = new HashMap<>();
+        this.charactersMap.put(PLAYER_KEY, players);
         this.turnNumber = 0;
     }
 
     public void initiateGameContext(String name, SizeBoard sizeBoard, int enemiesNumbers, int enemiesLevel) {
         EnemiesProvider enemiesProvider = new EnemiesProvider();
         BoardProvider boardProvider = new BoardProvider();
-        this.enemies = enemiesProvider.createEnemiesStatsBy(enemiesNumbers, enemiesLevel);
+        this.charactersMap.put(ENEMY_KEY, enemiesProvider.createEnemiesStatsBy(enemiesNumbers, enemiesLevel));
         //TODO better way to do this
         AtomicInteger i = new AtomicInteger();
-        enemies.forEach(enemy -> enemy.setCoordinate(
+        this.charactersMap.get(ENEMY_KEY).forEach(enemy -> enemy.setCoordinate(
                 new Coordinate(sizeBoard.getHeight() - 1 - i.getAndIncrement(), sizeBoard.getLength() - 1)));
-        this.board = boardProvider.createBoardGameBy(name, sizeBoard, this.players, this.enemies);
+        this.board = boardProvider.createBoardGameBy(name, sizeBoard, this.charactersMap);
 
-        this.players.forEach(Player::endTurn);
-        this.enemies.forEach(Player::endTurn);
+        this.charactersMap.get(PLAYER_KEY).forEach(Player::endTurn);
+        this.charactersMap.get(ENEMY_KEY).forEach(Player::endTurn);
         this.endGame = false;
     }
 }

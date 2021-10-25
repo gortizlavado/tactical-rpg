@@ -44,7 +44,7 @@ public class ActionService {
         } else {
             System.out.println("Enemy killed!");
             board[coordinate.getX()][coordinate.getY()] = null;
-            context.getEnemies().remove(enemy);
+            context.getCharactersMap().get(GameContext.ENEMY_KEY).remove(enemy);
         }
     }
 }

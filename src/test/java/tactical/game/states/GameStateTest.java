@@ -50,16 +50,16 @@ class GameStateTest {
     void shouldNewTurnApply_whenInitiateGame() {
         state = new NewTurn();
         Assertions.assertTrue(state.apply(context));
-        Assertions.assertTrue(context.getPlayers().stream().allMatch(Player::isFinishedTurn));
-        Assertions.assertTrue(context.getPlayers().stream().noneMatch(BaseCharacter::isMoveTurn));
-        Assertions.assertTrue(context.getEnemies().stream().allMatch(Player::isFinishedTurn));
-        Assertions.assertTrue(context.getEnemies().stream().noneMatch(BaseCharacter::isMoveTurn));
+        Assertions.assertTrue(context.getCharactersMap().get(GameContext.PLAYER_KEY).stream().allMatch(Player::isFinishedTurn));
+        Assertions.assertTrue(context.getCharactersMap().get(GameContext.PLAYER_KEY).stream().noneMatch(BaseCharacter::isMoveTurn));
+        Assertions.assertTrue(context.getCharactersMap().get(GameContext.ENEMY_KEY).stream().allMatch(Player::isFinishedTurn));
+        Assertions.assertTrue(context.getCharactersMap().get(GameContext.ENEMY_KEY).stream().noneMatch(BaseCharacter::isMoveTurn));
         state.execute(context);
         Assertions.assertEquals(1, context.getTurnNumber());
-        Assertions.assertTrue(context.getPlayers().stream().noneMatch(BaseCharacter::isFinishedTurn));
-        Assertions.assertTrue(context.getPlayers().stream().allMatch(Player::isMoveTurn));
-        Assertions.assertTrue(context.getEnemies().stream().noneMatch(BaseCharacter::isFinishedTurn));
-        Assertions.assertTrue(context.getEnemies().stream().allMatch(Player::isMoveTurn));
+        Assertions.assertTrue(context.getCharactersMap().get(GameContext.PLAYER_KEY).stream().noneMatch(BaseCharacter::isFinishedTurn));
+        Assertions.assertTrue(context.getCharactersMap().get(GameContext.PLAYER_KEY).stream().allMatch(Player::isMoveTurn));
+        Assertions.assertTrue(context.getCharactersMap().get(GameContext.ENEMY_KEY).stream().noneMatch(BaseCharacter::isFinishedTurn));
+        Assertions.assertTrue(context.getCharactersMap().get(GameContext.ENEMY_KEY).stream().allMatch(Player::isMoveTurn));
     }
 
     @Test
@@ -113,7 +113,7 @@ class GameStateTest {
         });
         Mockito.when(inputService.askForHandEquipment(eq(playerTest))).thenReturn(playerTest.getHandEquipment()[0]);
         playerTest.newTurn();
-        final List<Player> enemies = context.getEnemies();
+        final List<Player> enemies = context.getCharactersMap().get(GameContext.ENEMY_KEY);
         Player enemyTest = enemies.get(0);
         int initialHealth = enemyTest.getHealth();
 
@@ -147,7 +147,7 @@ class GameStateTest {
         Mockito.when(inputService.askForHandEquipment(eq(playerTest))).thenReturn(playerTest.getHandEquipment()[0]);
         playerTest.newTurn();
         final Coordinate attackCoordinate = new Coordinate(0, 6);
-        final List<Player> enemies = context.getEnemies();
+        final List<Player> enemies = context.getCharactersMap().get(GameContext.ENEMY_KEY);
         final Player[][] board = context.getBoard().getBoard();
         Player enemyTest = enemies.get(0);
         board[enemyTest.getCoordinate().getX()][enemyTest.getCoordinate().getY()] = null;
@@ -187,7 +187,7 @@ class GameStateTest {
         context.initiateGameContext("Game Test Kill", new SizeBoard(5, 5), 1, 1);
         playerTest.newTurn();
         final Coordinate attackCoordinate = new Coordinate(0, 4);
-        final List<Player> enemies = context.getEnemies();
+        final List<Player> enemies = context.getCharactersMap().get(GameContext.ENEMY_KEY);
         final Player[][] board = context.getBoard().getBoard();
         Player enemyTest = enemies.get(0);
         board[enemyTest.getCoordinate().getX()][enemyTest.getCoordinate().getY()] = null;
@@ -200,7 +200,7 @@ class GameStateTest {
         context.setPlayerChoose(playerTest);
         playerTurn.execute(context);
         Assertions.assertTrue(playerTest.isFinishedTurn());
-        Assertions.assertEquals(0, context.getEnemies().size());
+        Assertions.assertEquals(0, context.getCharactersMap().get(GameContext.ENEMY_KEY).size());
     }
 
 }

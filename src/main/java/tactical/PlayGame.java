@@ -1,6 +1,7 @@
 package tactical;
 
 import tactical.game.TacticalGame;
+import tactical.game.context.GameContext;
 
 import java.io.IOException;
 
@@ -19,8 +20,10 @@ public class PlayGame {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         tacticalGame.play();
-        if (tacticalGame.getContext().getEnemies().isEmpty()) {
+
+        if (tacticalGame.getContext().getCharactersMap().get(GameContext.ENEMY_KEY).isEmpty()) {
             System.out.println("Player WIN!");
         } else {
             System.out.println("Player LOSE...");

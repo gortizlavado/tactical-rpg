@@ -15,7 +15,8 @@ public class EndGame implements GameState {
 
     @Override
     public boolean apply(GameContext context) {
-        return context.getPlayers().size() == 0 || context.getEnemies().size() == 0;
+        return context.getCharactersMap().get(GameContext.PLAYER_KEY).size() == 0 ||
+                context.getCharactersMap().get(GameContext.ENEMY_KEY).size() == 0;
     }
 
     @Override

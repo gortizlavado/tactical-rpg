@@ -34,7 +34,7 @@ public class PlayerTurn implements GameState, PlayerState {
     @Override
     public boolean apply(GameContext context) {
         System.out.println("Any Player can do an action?");
-        final long numberOfPlayerReady = context.getPlayers()
+        final long numberOfPlayerReady = context.getCharactersMap().get(GameContext.PLAYER_KEY)
                 .stream()
                 .filter(Predicate.not(Player::isFinishedTurn))
                 .count();
@@ -81,7 +81,7 @@ public class PlayerTurn implements GameState, PlayerState {
 
     @Override
     public void choosePlayer(GameContext context) {
-        Player playerChosen = inputService.askForPlayer(context.getPlayers()
+        Player playerChosen = inputService.askForPlayer(context.getCharactersMap().get(GameContext.PLAYER_KEY)
                 .stream()
                 .filter(Predicate.not(Player::isFinishedTurn))
                 .collect(Collectors.toList()));

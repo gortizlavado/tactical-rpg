@@ -5,7 +5,10 @@ import tactical.equipment.base.BaseHandEquipment;
 import tactical.models.Coordinate;
 import tactical.players.base.Player;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PlayerCreatorUtil {
@@ -55,6 +58,31 @@ public class PlayerCreatorUtil {
         return new Coordinate(0,0);
     }
 
+    public static Map<String, List<Player>> createListOfPCharactersWithRandomCoordinates() {
+        Set<Coordinate> coordinateList = new HashSet<>();
+        final List<Player> listOfPlayers = PlayerCreatorUtil.createListOfPlayersWithRandomCoordinates(coordinateList, 0, 20);
+        final List<Player> listOfEnemies = PlayerCreatorUtil.createListOfEnemiesWithRandomCoordinates(coordinateList, 0, 20);
+        return Map.of("players", listOfPlayers, "enemies", listOfEnemies);
+    }
+
+    private static List<Player> createListOfPlayersWithRandomCoordinates(Set<Coordinate> coordinateList, int min, int max) {
+        return List.of(
+                new Player(false, "Player 1", 100, 30, 10, 5, generateRandomCoordinate(coordinateList, min, max)),
+                new Player(false, "Player 2", 100, 30, 10, 5, generateRandomCoordinate(coordinateList, min, max)),
+                new Player(false, "Player 3", 100, 30, 10, 5, generateRandomCoordinate(coordinateList, min, max)),
+                new Player(false, "Player 4", 100, 30, 10, 5, generateRandomCoordinate(coordinateList, min, max)),
+                new Player(false, "Player 5", 100, 30, 10, 5, generateRandomCoordinate(coordinateList, min, max)));
+    }
+
+    public static List<Player> createListOfEnemiesWithRandomCoordinates(Set<Coordinate> coordinateList, int min, int max) {
+        return List.of(
+                new Player(false, "Enemy 1", 100, 30, 10, 5, generateRandomCoordinate(coordinateList, min, max)),
+                new Player(false, "Enemy 2", 100, 30, 10, 5, generateRandomCoordinate(coordinateList, min, max)),
+                new Player(false, "Enemy 3", 100, 30, 10, 5, generateRandomCoordinate(coordinateList, min, max)),
+                new Player(false, "Enemy 4", 100, 30, 10, 5, generateRandomCoordinate(coordinateList, min, max)),
+                new Player(false, "Enemy 5", 100, 30, 10, 5, generateRandomCoordinate(coordinateList, min, max)));
+    }
+
     public static List<Player> createListOfPlayersWithRandomCoordinates(int min, int max) {
         return List.of(
                 new Player(false, "Player 1", 100, 30, 10, 5, generateRandomCoordinate(min, max)),
@@ -99,10 +127,22 @@ public class PlayerCreatorUtil {
         return new BaseHandEquipment("Sword", 10, 0, 1);
     }
 
+    private static Coordinate generateRandomCoordinate(Set<Coordinate> coordinateList, int min, int max) {
+        final int initialSize = coordinateList.size();
+        int endSize = initialSize;
+
+        Coordinate coordinate = null;
+        while (initialSize == endSize) {
+            coordinate = generateRandomCoordinate(min, max);
+            coordinateList.add(coordinate);
+            endSize = coordinateList.size();
+        }
+        return coordinate;
+    }
+
     private static Coordinate generateRandomCoordinate(int min, int max) {
         int randomX = ThreadLocalRandom.current().nextInt(min, max);
         int randomY = ThreadLocalRandom.current().nextInt(min, max);
         return new Coordinate(randomX, randomY);
     }
-
 }
