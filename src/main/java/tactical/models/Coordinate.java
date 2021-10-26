@@ -6,7 +6,6 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
 public class Coordinate {
 
     private int x;
@@ -42,4 +41,8 @@ public class Coordinate {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
 }

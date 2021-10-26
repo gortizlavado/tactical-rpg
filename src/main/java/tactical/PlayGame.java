@@ -10,7 +10,7 @@ public class PlayGame {
     public static void main(String[] args) {
         TacticalGame tacticalGame = new TacticalGame();
         // Ask for game name.
-        String name = "test";
+        String name = "new game";
         System.out.println("Initiating tactical game...");
         tacticalGame.init(name);
         System.out.println("Initiate completed!");

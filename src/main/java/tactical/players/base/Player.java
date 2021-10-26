@@ -1,6 +1,5 @@
 package tactical.players.base;
 
-import lombok.ToString;
 import tactical.equipment.base.BaseBodyEquipment;
 import tactical.equipment.base.BaseHandEquipment;
 import tactical.models.Coordinate;
@@ -9,7 +8,7 @@ import tactical.players.base.character.BaseCharacter;
 
 import java.util.Arrays;
 
-@ToString(callSuper = true)
+
 public class Player extends BaseCharacter implements ActionCharacter {
 
     private final static int BEGINNING_LEVEL = 1;
@@ -67,16 +66,27 @@ public class Player extends BaseCharacter implements ActionCharacter {
             return this.attackPower;
         }
 
-        int increaseAttackPower = handEquipment.getAttackPower();
+        int totalAttackPower = this.fetchTotalAttackPower(handEquipment);
+        printAttack(totalAttackPower);
+        return totalAttackPower;
+    }
+
+    private int fetchTotalAttackPower(final BaseHandEquipment handEquipment) {
+        int increaseAttackPower = 0;
+        if (null != handEquipment) {
+            increaseAttackPower = handEquipment.getAttackPower();
+        }
         for (BaseBodyEquipment equipment : this.getBodyEquipment()) {
             if (null != equipment) {
                 increaseAttackPower = increaseAttackPower + equipment.getAttackPower();
             }
         }
 
-        int totalAttackPower = this.attackPower + increaseAttackPower;
-        printAttack(totalAttackPower);
-        return totalAttackPower;
+        return this.attackPower + increaseAttackPower;
+    }
+
+    private int fetchTotalAttackPower() {
+        return fetchTotalAttackPower(null);
     }
 
     @Override
@@ -87,6 +97,12 @@ public class Player extends BaseCharacter implements ActionCharacter {
             return this.defensePower;
         }
 
+        int totalDefensePower = fetchTotalDefensePower();
+        printDefense(totalDefensePower);
+        return totalDefensePower;
+    }
+
+    private int fetchTotalDefensePower() {
         int increaseDefensePower = 0;
         for (BaseHandEquipment equipment : this.getHandEquipment()) {
             if (null != equipment) {
@@ -99,9 +115,7 @@ public class Player extends BaseCharacter implements ActionCharacter {
             }
         }
 
-        int totalDefensePower = this.defensePower + increaseDefensePower;
-        printDefense(totalDefensePower);
-        return totalDefensePower;
+        return this.defensePower + increaseDefensePower;
     }
 
     @Override
@@ -147,6 +161,12 @@ public class Player extends BaseCharacter implements ActionCharacter {
 
     private void printAction(String action, int power) {
         System.out.printf("Player %s %s with power %d%n", this.name, action, power);
+    }
+
+    @Override
+    public String toString() {
+        return getCoordinate() + " " + name + " " + "lvl" + level + "\n" +
+                "\t\tHP " + health + " Atk " + this.fetchTotalAttackPower() + " Def " + this.fetchTotalDefensePower();
     }
 
 }

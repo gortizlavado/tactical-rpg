@@ -19,8 +19,8 @@ public class InputService {
     }
 
     public Player askForPlayer(List<Player> playerList) {
-        System.out.println(playerList);
-        System.out.println("Choose one of player in this list: ");
+        System.out.println(printList(playerList));
+        System.out.print("Choose one of player in this list: ");
         int playerChosen = input.nextInt();
         return playerList.get(playerChosen);
     }
@@ -31,7 +31,7 @@ public class InputService {
             actionEnums = ActionEnum.fetchAttackValues();
         }
         System.out.println(ActionEnum.printAction(actionEnums));
-        System.out.println("Choose one of action: ");
+        System.out.print("Choose one of action: ");
         String actionString = input.next();
         try {
             return ActionEnum.findActionBy(actionString);
@@ -43,9 +43,9 @@ public class InputService {
 
     public Coordinate askForCoordinate(Player[][] board) {
         System.out.println("Choose coordinate...");
-        System.out.println("x: ");
+        System.out.print("x: ");
         int x = input.nextInt();
-        System.out.println("y: ");
+        System.out.print("y: ");
         int y = input.nextInt();
 
         if (x > board[0].length || y > board.length) {
@@ -58,17 +58,30 @@ public class InputService {
 
     public BaseHandEquipment askForHandEquipment(Player player) {
         System.out.println("Choose hand equipment...");
-        System.out.println(Arrays.toString(player.getHandEquipment()));
+        System.out.print(Arrays.toString(player.getHandEquipment()));
         int handChosen = input.nextInt();
 
         BaseHandEquipment handEquipment = null;
         try {
             handEquipment = player.getHandEquipment()[handChosen];
-        } catch (ArrayIndexOutOfBoundsException iobe) {
+        } catch (ArrayIndexOutOfBoundsException aiobe) {
             System.out.println("Impossible Equipment ¬¬. Try with another...");
             askForHandEquipment(player);
         }
         return handEquipment;
+    }
+
+    private String printList(List<Player> playerList) {
+        StringBuilder result = new StringBuilder();
+        int totalSize = playerList.size();
+        int lastPlayer = totalSize - 1;
+        for (int i = 0; i < totalSize; i++) {
+            result.append("#").append(i).append(" -> ").append(playerList.get(i));
+            if (i != lastPlayer) {
+                result.append("\n");
+            }
+        }
+        return result.toString();
     }
 
 }
