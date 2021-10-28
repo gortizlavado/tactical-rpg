@@ -14,15 +14,15 @@ public class ActionService {
         final Coordinate oldCoordinate = player.getCoordinate();
         if (player.move(coordinate)) {
             final Player[][] board = context.getBoard().getBoard();
-            board[oldCoordinate.getX()][oldCoordinate.getY()] = null;
-            board[coordinate.getX()][coordinate.getY()] = player;
+            board[oldCoordinate.getY()][oldCoordinate.getX()] = null;
+            board[coordinate.getY()][coordinate.getX()] = player;
             BoardPrint.print(board);
         }
     }
 
     public void doAttackAction(GameContext context, Player player, Coordinate coordinate, BaseHandEquipment handEquipment) {
         final Player[][] board = context.getBoard().getBoard();
-        final Player enemy = board[coordinate.getX()][coordinate.getY()];
+        final Player enemy = board[coordinate.getY()][coordinate.getX()];
         player.endTurn();
         if (Objects.equals(null, enemy)) {
             System.out.println("There is not an enemy... :(");
@@ -43,7 +43,7 @@ public class ActionService {
             System.out.println("Enemy health: " + enemyHealthAfter);
         } else {
             System.out.println("Enemy killed!");
-            board[coordinate.getX()][coordinate.getY()] = null;
+            board[coordinate.getY()][coordinate.getX()] = null;
             context.getCharactersMap().get(GameContext.ENEMY_KEY).remove(enemy);
         }
     }

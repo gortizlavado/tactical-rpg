@@ -8,6 +8,7 @@ import tactical.players.base.action.ActionEnum;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class InputService {
@@ -19,7 +20,7 @@ public class InputService {
     }
 
     public Player askForPlayer(List<Player> playerList) {
-        System.out.println(printList(playerList));
+        System.out.println(printListOfPlayers(playerList));
         System.out.print("Choose one of player in this list: ");
         int playerChosen = input.nextInt();
         return playerList.get(playerChosen);
@@ -53,11 +54,17 @@ public class InputService {
             askForCoordinate(board);
         }
 
+        if (Objects.nonNull(board[y][x])) {
+            System.out.println("Impossible Coordinate ¬¬. Try with another...");
+            askForCoordinate(board);
+        }
+
         return new Coordinate(x, y);
     }
 
     public BaseHandEquipment askForHandEquipment(Player player) {
         System.out.println("Choose hand equipment...");
+        //TODO change print
         System.out.print(Arrays.toString(player.getHandEquipment()));
         int handChosen = input.nextInt();
 
@@ -71,7 +78,7 @@ public class InputService {
         return handEquipment;
     }
 
-    private String printList(List<Player> playerList) {
+    private String printListOfPlayers(List<Player> playerList) {
         StringBuilder result = new StringBuilder();
         int totalSize = playerList.size();
         int lastPlayer = totalSize - 1;

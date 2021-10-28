@@ -11,6 +11,7 @@ import tactical.models.Coordinate;
 import tactical.players.base.Player;
 import tactical.players.base.action.ActionEnum;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -57,7 +58,7 @@ public class PlayerTurn implements GameState, PlayerState {
             case ATTACK:
                 BaseHandEquipment handEquipment = inputService.askForHandEquipment(player);
                 coordinate = inputService.askForCoordinate(context.getBoard().getBoard());
-                if (player.canAttack(coordinate, handEquipment.getRange())) {
+                if (player.canAttack(coordinate, (Objects.isNull(handEquipment)) ? 1 : handEquipment.getRange())) {
                     actionService.doAttackAction(context, player, coordinate, handEquipment);
                 } else {
                     System.out.println("Impossible Attack ¬¬. Try with another near target...");

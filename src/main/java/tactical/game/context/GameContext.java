@@ -42,7 +42,7 @@ public class GameContext {
         //TODO better way to do this
         AtomicInteger i = new AtomicInteger();
         this.charactersMap.get(ENEMY_KEY).forEach(enemy -> enemy.setCoordinate(
-                new Coordinate(sizeBoard.getHeight() - 1 - i.getAndIncrement(), sizeBoard.getLength() - 1)));
+                new Coordinate(sizeBoard.getLength() - 1 - i.getAndIncrement(), sizeBoard.getHeight() - 1)));
         this.board = boardProvider.createBoardGameBy(name, sizeBoard, this.charactersMap);
 
         this.charactersMap.get(PLAYER_KEY).forEach(Player::endTurn);

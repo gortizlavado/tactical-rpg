@@ -33,9 +33,8 @@ public class TacticalGame {
     }
 
     public void init(String name) {
-        // Ask for size board
         SizeBoard sizeBoard = this.askForBoardSize();
-        System.out.printf("Select Size Board: height=%s length=%s%n", sizeBoard.getHeight(), sizeBoard.getLength());
+        System.out.printf("Select Size Board: length=%s height=%s%n", sizeBoard.getLength(), sizeBoard.getHeight());
         Player thanosh = new Thanosh(7);
         thanosh.setEquipment(new Jacket());
         thanosh.setEquipment(new Ring());
@@ -72,13 +71,13 @@ public class TacticalGame {
         System.out.println("Choose size of board...");
         System.out.print("length(x): ");
         int x = input.nextInt();
-        if (x < 0) {
+        if (x < 1) {
             System.out.println("Board Size MUST be higher than zero");
             askForBoardSize();
         }
         System.out.print("height(y): ");
         int y = input.nextInt();
-        if (y < 0) {
+        if (y < 1) {
             System.out.println("Board Size MUST be higher than zero");
             askForBoardSize();
         }

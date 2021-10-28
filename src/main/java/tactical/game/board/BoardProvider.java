@@ -20,11 +20,11 @@ public class BoardProvider {
         Player[][] board = new Player[sizeBoard.getHeight()][sizeBoard.getLength()];
         for (Player player : players) {
             final Coordinate coordinate = player.getCoordinate();
-            board[coordinate.getX()][coordinate.getY()] = player;
+            board[coordinate.getY()][coordinate.getX()] = player;
         }
         for (Player enemy : enemies) {
             final Coordinate coordinate = enemy.getCoordinate();
-            board[coordinate.getX()][coordinate.getY()] = enemy;
+            board[coordinate.getY()][coordinate.getX()] = enemy;
         }
 
         return new BoardGame(name, board);
