@@ -69,7 +69,7 @@ class BoardProviderTest {
                 new SizeBoard(0, 20),
                 lisOfCharactersMap));
 
-        MatcherAssert.assertThat(exception.getMessage(), CoreMatchers.containsString("height=0, length=20"));
+        MatcherAssert.assertThat(exception.getMessage(), CoreMatchers.containsString("length(x)=0, height(y)=20"));
     }
 
     @Test
@@ -103,7 +103,7 @@ class BoardProviderTest {
 
     private void assertCoordinate(Player player, Player[][] board) {
         Coordinate coordinate = player.getCoordinate();
-        Player playerSituated = board[coordinate.getX()][coordinate.getY()];
+        Player playerSituated = board[coordinate.getY()][coordinate.getX()];
         Assertions.assertEquals(playerSituated, player);
     }
 

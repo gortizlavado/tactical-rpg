@@ -42,7 +42,22 @@ public class InputService {
         }
     }
 
-    public Coordinate askForCoordinate(Player[][] board) {
+    public Coordinate askForCoordinateToMove(Player[][] board) {
+        Coordinate coordinate = askForCoordinate(board);
+
+        if (Objects.nonNull(board[coordinate.getY()][coordinate.getX()])) {
+            System.out.println("Impossible Coordinate ¬¬. Try with another...");
+            askForCoordinateToMove(board);
+        }
+
+        return coordinate;
+    }
+
+    public Coordinate askForCoordinateToAttack(Player[][] board) {
+        return askForCoordinate(board);
+    }
+
+    private Coordinate askForCoordinate(Player[][] board) {
         System.out.println("Choose coordinate...");
         System.out.print("x: ");
         int x = input.nextInt();
@@ -54,18 +69,12 @@ public class InputService {
             askForCoordinate(board);
         }
 
-        if (Objects.nonNull(board[y][x])) {
-            System.out.println("Impossible Coordinate ¬¬. Try with another...");
-            askForCoordinate(board);
-        }
-
         return new Coordinate(x, y);
     }
 
     public BaseHandEquipment askForHandEquipment(Player player) {
-        System.out.println("Choose hand equipment...");
-        //TODO change print
-        System.out.print(Arrays.toString(player.getHandEquipment()));
+        System.out.println(printListOfPlayers(Arrays.asList(player.getHandEquipment())));
+        System.out.print("Choose one of hand equipment in this list: ");
         int handChosen = input.nextInt();
 
         BaseHandEquipment handEquipment = null;
@@ -78,13 +87,13 @@ public class InputService {
         return handEquipment;
     }
 
-    private String printListOfPlayers(List<Player> playerList) {
+    private String printListOfPlayers(List<?> listOfThings) {
         StringBuilder result = new StringBuilder();
-        int totalSize = playerList.size();
-        int lastPlayer = totalSize - 1;
+        int totalSize = listOfThings.size();
+        int lastItem = totalSize - 1;
         for (int i = 0; i < totalSize; i++) {
-            result.append("#").append(i).append(" -> ").append(playerList.get(i));
-            if (i != lastPlayer) {
+            result.append("#").append(i).append(" -> ").append(listOfThings.get(i));
+            if (i != lastItem) {
                 result.append("\n");
             }
         }

@@ -34,7 +34,7 @@ public class TacticalGame {
 
     public void init(String name) {
         SizeBoard sizeBoard = this.askForBoardSize();
-        System.out.printf("Select Size Board: length=%s height=%s%n", sizeBoard.getLength(), sizeBoard.getHeight());
+        System.out.print("Select Size Board: " + sizeBoard);
         Player thanosh = new Thanosh(7);
         thanosh.setEquipment(new Jacket());
         thanosh.setEquipment(new Ring());

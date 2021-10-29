@@ -9,4 +9,9 @@ public class SizeBoard {
 
     private int length;
     private int height;
+
+    @Override
+    public String toString() {
+        return "length(x)=" + length + ", " + "height(y)=" + height;
+    }
 }

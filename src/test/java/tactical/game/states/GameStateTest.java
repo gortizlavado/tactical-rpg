@@ -80,7 +80,7 @@ class GameStateTest {
                 return ActionEnum.MOVE;
             }
         });
-        Mockito.when(inputService.askForCoordinate(eq(context.getBoard().getBoard()))).thenReturn(new Coordinate(0, 5));
+        Mockito.when(inputService.askForCoordinateToMove(eq(context.getBoard().getBoard()))).thenReturn(new Coordinate(0, 5));
         playerTest.newTurn();
 
         Assertions.assertTrue(playerTurn.apply(context));
@@ -88,7 +88,8 @@ class GameStateTest {
         playerTurn.execute(context);
         final Player[][] board = context.getBoard().getBoard();
         Assertions.assertNull(board[0][0]);
-        Assertions.assertEquals(playerTest.getName(), board[0][5].getName());
+        Assertions.assertNotNull(board[5][0]);
+        Assertions.assertEquals(playerTest.getName(), board[5][0].getName());
     }
 
     @Test
@@ -102,15 +103,8 @@ class GameStateTest {
                 return ActionEnum.MOVE;
             }
         });
-        Mockito.when(inputService.askForCoordinate(any())).thenAnswer(new Answer<>() {
-            private int count = 0;
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1) {
-                    return new Coordinate(0, 6);
-                }
-                return new Coordinate(0, 5);
-            }
-        });
+        Mockito.when(inputService.askForCoordinateToMove(any())).thenReturn(new Coordinate(0, 5));
+        Mockito.when(inputService.askForCoordinateToAttack(any())).thenReturn(new Coordinate(0, 6));
         Mockito.when(inputService.askForHandEquipment(eq(playerTest))).thenReturn(playerTest.getHandEquipment()[0]);
         playerTest.newTurn();
         final List<Player> enemies = context.getCharactersMap().get(GameContext.ENEMY_KEY);
@@ -125,7 +119,7 @@ class GameStateTest {
     }
 
     @Test
-    void shouldPlayerMoveAndAttackAndNotHeartAnyOne_whenNewTurn() {
+    void shouldPlayerMoveAndAttackAndNotHeartAnyOne_whenNewTurn() { //TODO better init test
         Mockito.when(inputService.askForAction(any(Player.class))).thenAnswer(new Answer<>() {
             private int count = 0;
             public Object answer(InvocationOnMock invocation) {
@@ -135,25 +129,18 @@ class GameStateTest {
                 return ActionEnum.MOVE;
             }
         });
-        Mockito.when(inputService.askForCoordinate(any())).thenAnswer(new Answer<>() {
-            private int count = 0;
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1) {
-                    return new Coordinate(0, 6);
-                }
-                return new Coordinate(0, 5);
-            }
-        });
+        Mockito.when(inputService.askForCoordinateToMove(any())).thenReturn(new Coordinate(0, 5));
+        Mockito.when(inputService.askForCoordinateToAttack(any())).thenReturn(new Coordinate(0, 6));
         Mockito.when(inputService.askForHandEquipment(eq(playerTest))).thenReturn(playerTest.getHandEquipment()[0]);
         playerTest.newTurn();
         final Coordinate attackCoordinate = new Coordinate(0, 6);
         final List<Player> enemies = context.getCharactersMap().get(GameContext.ENEMY_KEY);
         final Player[][] board = context.getBoard().getBoard();
         Player enemyTest = enemies.get(0);
-        board[enemyTest.getCoordinate().getX()][enemyTest.getCoordinate().getY()] = null;
+        board[enemyTest.getCoordinate().getY()][enemyTest.getCoordinate().getX()] = null;
         int initialHealth = enemyTest.getHealth();
         enemyTest.setCoordinate(attackCoordinate);
-        board[attackCoordinate.getX()][attackCoordinate.getY()] = enemyTest;
+        board[attackCoordinate.getY()][attackCoordinate.getX()] = enemyTest;
 
         Assertions.assertTrue(playerTurn.apply(context));
         context.setPlayerChoose(playerTest);
@@ -173,15 +160,8 @@ class GameStateTest {
                 return ActionEnum.MOVE;
             }
         });
-        Mockito.when(inputService.askForCoordinate(any())).thenAnswer(new Answer<>() {
-            private int count = 0;
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1) {
-                    return new Coordinate(0, 4);
-                }
-                return new Coordinate(0, 3);
-            }
-        });
+        Mockito.when(inputService.askForCoordinateToMove(any())).thenReturn(new Coordinate(0, 3));
+        Mockito.when(inputService.askForCoordinateToAttack(any())).thenReturn(new Coordinate(0, 4));
         Mockito.when(inputService.askForHandEquipment(eq(playerTest))).thenReturn(playerTest.getHandEquipment()[0]);
         GameContext context = new GameContext(List.of(playerTest));
         context.initiateGameContext("Game Test Kill", new SizeBoard(5, 5), 1, 1);
@@ -190,10 +170,10 @@ class GameStateTest {
         final List<Player> enemies = context.getCharactersMap().get(GameContext.ENEMY_KEY);
         final Player[][] board = context.getBoard().getBoard();
         Player enemyTest = enemies.get(0);
-        board[enemyTest.getCoordinate().getX()][enemyTest.getCoordinate().getY()] = null;
+        board[enemyTest.getCoordinate().getY()][enemyTest.getCoordinate().getX()] = null;
         enemyTest.setCoordinate(attackCoordinate);
         enemyTest.setHealth(10);
-        board[attackCoordinate.getX()][attackCoordinate.getY()] = enemyTest;
+        board[attackCoordinate.getY()][attackCoordinate.getX()] = enemyTest;
 
 
         Assertions.assertTrue(playerTurn.apply(context));
