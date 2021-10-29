@@ -50,7 +50,7 @@ public class TacticalGame {
         int enemiesNumbers = askForEnemiesNumber();
         int enemiesLevel = askForEnemiesLevel();
         context.initiateGameContext(name, sizeBoard, enemiesNumbers, enemiesLevel);
-        BoardPrint.print(context.getBoard().getBoard());
+        BoardPrint.print(context.getBoard().getField());
     }
 
     public void play() {

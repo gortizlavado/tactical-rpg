@@ -35,10 +35,10 @@ public class GameContext {
         this.turnNumber = 0;
     }
 
-    public void initiateGameContext(String name, SizeBoard sizeBoard, int enemiesNumbers, int enemiesLevel) {
+    public void initiateGameContext(String name, SizeBoard sizeBoard, int enemiesNumber, int enemiesLevel) {
         EnemiesProvider enemiesProvider = new EnemiesProvider();
         BoardProvider boardProvider = new BoardProvider();
-        this.charactersMap.put(ENEMY_KEY, enemiesProvider.createEnemiesStatsBy(enemiesNumbers, enemiesLevel));
+        this.charactersMap.put(ENEMY_KEY, enemiesProvider.createEnemiesStatsBy(enemiesNumber, enemiesLevel));
         //TODO better way to do this
         AtomicInteger i = new AtomicInteger();
         this.charactersMap.get(ENEMY_KEY).forEach(enemy -> enemy.setCoordinate(

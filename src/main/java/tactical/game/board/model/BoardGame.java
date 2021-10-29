@@ -9,5 +9,5 @@ import tactical.players.base.Player;
 public class BoardGame {
 
     private final String name;
-    private final Player[][] board;
+    private final Player[][] field;
 }

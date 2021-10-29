@@ -36,7 +36,7 @@ class BoardProviderTest {
                 new SizeBoard(20, 20),
                 lisOfCharactersMap);
 
-        Player[][] board = boardTest.getBoard();
+        Player[][] board = boardTest.getField();
         for (Player player : listOfPlayers) {
             assertCoordinate(player, board);
         }

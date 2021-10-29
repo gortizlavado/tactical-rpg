@@ -51,13 +51,13 @@ public class PlayerTurn implements GameState, PlayerState {
         Coordinate coordinate;
         switch (action) {
             case MOVE:
-                coordinate = inputService.askForCoordinateToMove(context.getBoard().getBoard());
+                coordinate = inputService.askForCoordinateToMove(context.getBoard().getField());
                 actionService.doMoveAction(context, player, coordinate);
                 execute(context);
                 break;
             case ATTACK:
                 BaseHandEquipment handEquipment = inputService.askForHandEquipment(player);
-                coordinate = inputService.askForCoordinateToAttack(context.getBoard().getBoard());
+                coordinate = inputService.askForCoordinateToAttack(context.getBoard().getField());
                 if (player.canAttack(coordinate, (Objects.isNull(handEquipment)) ? 1 : handEquipment.getRange())) {
                     actionService.doAttackAction(context, player, coordinate, handEquipment);
                 } else {

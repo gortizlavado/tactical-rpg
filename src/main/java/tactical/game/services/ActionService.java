@@ -13,7 +13,7 @@ public class ActionService {
     public void doMoveAction(GameContext context, Player player, Coordinate coordinate) {
         final Coordinate oldCoordinate = player.getCoordinate();
         if (player.move(coordinate)) {
-            final Player[][] board = context.getBoard().getBoard();
+            final Player[][] board = context.getBoard().getField();
             board[oldCoordinate.getY()][oldCoordinate.getX()] = null;
             board[coordinate.getY()][coordinate.getX()] = player;
             BoardPrint.print(board);
@@ -21,7 +21,7 @@ public class ActionService {
     }
 
     public void doAttackAction(GameContext context, Player player, Coordinate coordinate, BaseHandEquipment handEquipment) {
-        final Player[][] board = context.getBoard().getBoard();
+        final Player[][] board = context.getBoard().getField();
         final Player enemy = board[coordinate.getY()][coordinate.getX()];
         player.endTurn();
         if (Objects.equals(null, enemy)) {

@@ -14,8 +14,15 @@ import java.util.concurrent.ThreadLocalRandom;
 public class PlayerCreatorUtil {
 
     public static Player createTestPlayerNoEquipment() {
-        Coordinate initialCoordinate = fetchInitialCoordinate();
-        Player player = new Player(false, "John Doe", 100, 30, 10, 5, initialCoordinate);
+        return createPlayerNoEquipment("John Doe", fetchInitialCoordinate());
+    }
+
+    public static Player createSecondTestPlayerNoEquipment() {
+        return createPlayerNoEquipment("John Doe", new Coordinate(1,0));
+    }
+
+    private static Player createPlayerNoEquipment(String name, Coordinate coordinate) {
+        Player player = new Player(false, name, 100, 30, 10, 5, coordinate);
         System.out.println(player.toString());
         return player;
     }
