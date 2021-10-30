@@ -118,9 +118,12 @@ public class Player extends BaseCharacter implements ActionCharacter {
         return this.defensePower + increaseDefensePower;
     }
 
-    @Override
     public final void modifyHealth(int healthToModify) {
         this.health = this.health + healthToModify;
+    }
+
+    public boolean hasNotHandEquipment() {
+        return Arrays.equals(new BaseHandEquipment[2], this.getHandEquipment());
     }
 
     @Override

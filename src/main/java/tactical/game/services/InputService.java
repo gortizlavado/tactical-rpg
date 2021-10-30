@@ -20,7 +20,7 @@ public class InputService {
     }
 
     public Player askForPlayer(List<Player> playerList) {
-        System.out.println(printListOfPlayers(playerList));
+        System.out.println(printListOfThings(playerList));
         System.out.print("Choose one of player in this list: ");
         int playerChosen = input.nextInt();
         return playerList.get(playerChosen);
@@ -53,8 +53,11 @@ public class InputService {
         return coordinate;
     }
 
-    public Coordinate askForCoordinateToAttack(Player[][] board) {
-        return askForCoordinate(board);
+    public Coordinate askForCoordinateToAttack(List<Coordinate> coordinates) {
+        System.out.println(Coordinate.printCoordinate(coordinates.toArray(new Coordinate[0])));
+        System.out.print("Choose one of coordinate in this list: ");
+        int playerChosen = input.nextInt();
+        return coordinates.get(playerChosen);
     }
 
     private Coordinate askForCoordinate(Player[][] board) {
@@ -73,7 +76,11 @@ public class InputService {
     }
 
     public BaseHandEquipment askForHandEquipment(Player player) {
-        System.out.println(printListOfPlayers(Arrays.asList(player.getHandEquipment())));
+        if (player.hasNotHandEquipment()) {
+            return null;
+        }
+
+        System.out.println(printListOfThings(Arrays.asList(player.getHandEquipment())));
         System.out.print("Choose one of hand equipment in this list: ");
         int handChosen = input.nextInt();
 
@@ -87,7 +94,7 @@ public class InputService {
         return handEquipment;
     }
 
-    private String printListOfPlayers(List<?> listOfThings) {
+    private String printListOfThings(List<?> listOfThings) {
         StringBuilder result = new StringBuilder();
         int totalSize = listOfThings.size();
         int lastItem = totalSize - 1;

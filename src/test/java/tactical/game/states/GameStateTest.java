@@ -147,6 +147,34 @@ class GameStateTest {
         Assertions.assertEquals(0, context.getCharactersMap().get(GameContext.ENEMY_KEY).size());
     }
 
+    @Test
+    void shouldRequestConfidenceCoordinate_whenPlayerAskForPossibleCoordinateForAttack() {
+        createGameContext(new SizeBoard(5, 5), 1, 1);
+        context.setPlayerChoose(playerTest);
+        final List<Coordinate> coordinateList = context.fetchPossibleCoordinateForAttack(1);
+        Assertions.assertEquals(2, coordinateList.size());
+        Assertions.assertTrue(coordinateList.containsAll(List.of(new Coordinate(1, 0), new Coordinate(0, 1))));
+        playerTest.setCoordinate(new Coordinate(0, 1));
+        final List<Coordinate> coordinateList2 = context.fetchPossibleCoordinateForAttack(1);
+        Assertions.assertEquals(3, coordinateList2.size());
+        Assertions.assertTrue(coordinateList2.containsAll(
+                List.of(new Coordinate(0, 2), new Coordinate(1, 1), new Coordinate(0, 0))));
+        playerTest.setCoordinate(new Coordinate(0, 4));
+        final List<Coordinate> coordinateList3 = context.fetchPossibleCoordinateForAttack(1);
+        Assertions.assertEquals(2, coordinateList3.size());
+        Assertions.assertTrue(coordinateList3.containsAll(List.of(new Coordinate(1, 4), new Coordinate(0, 3))));
+        playerTest.setCoordinate(new Coordinate(2, 2));
+        final List<Coordinate> coordinateList4 = context.fetchPossibleCoordinateForAttack(1);
+        Assertions.assertEquals(4, coordinateList4.size());
+        Assertions.assertTrue(coordinateList4.containsAll(List.of(
+                new Coordinate(3, 2), new Coordinate(2, 3), new Coordinate(1, 2), new Coordinate(2, 1))));
+        final List<Coordinate> coordinateList5 = context.fetchPossibleCoordinateForAttack(2);
+        Assertions.assertEquals(8, coordinateList5.size());
+        Assertions.assertTrue(coordinateList5.containsAll(List.of(
+                new Coordinate(3, 2), new Coordinate(2, 3), new Coordinate(1, 2), new Coordinate(2, 1),
+                new Coordinate(4, 2), new Coordinate(2, 4), new Coordinate(0, 2), new Coordinate(2, 0))));
+    }
+
     private void createGameContext(SizeBoard sizeBoard, int enemiesNumber, int enemiesLevel) {
         List<Player> playerList = new ArrayList<>();
         playerList.add(playerTest);

@@ -2,7 +2,8 @@ package tactical.models;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+
+import java.util.stream.IntStream;
 
 @Setter
 @Getter
@@ -21,6 +22,22 @@ public class Coordinate {
         int y = Math.abs(this.y - anotherCoordinate.getY());
 
         return x + y;
+    }
+
+    public static String printCoordinate(Coordinate... coordinates) {
+        StringBuilder sb = new StringBuilder();
+        final int lastCoordinate = coordinates.length - 1;
+        IntStream.range(0, coordinates.length).forEach(i -> {
+            if (i == 0) {
+                sb.append("[");
+            }
+            sb.append(coordinates[i].toString());
+            if (i != lastCoordinate) {
+                sb.append(", ");
+            }
+        });
+        sb.append("]");
+        return sb.toString();
     }
 
     @Override

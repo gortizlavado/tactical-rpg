@@ -34,7 +34,7 @@ public class TacticalGame {
 
     public void init(String name) {
         SizeBoard sizeBoard = this.askForBoardSize();
-        System.out.print("Select Size Board: " + sizeBoard);
+        System.out.println("Select Size Board: " + sizeBoard);
         Player thanosh = new Thanosh(7);
         thanosh.setEquipment(new Jacket());
         thanosh.setEquipment(new Ring());
@@ -42,7 +42,7 @@ public class TacticalGame {
         thanosh.setEquipment(new Wood());
         thanosh.setCoordinate(new Coordinate(0, 0));
         Player playerTwo = new PlayerTwo();
-        playerTwo.setCoordinate(new Coordinate(0, 1));
+        playerTwo.setCoordinate(new Coordinate(1, 0));
         // Ask for players and coordinate
         List<Player> playerList = List.of(thanosh, playerTwo);
         context = new GameContext(playerList);
@@ -59,6 +59,7 @@ public class TacticalGame {
             if (state.apply(context)) {
                 System.out.println(state.fetchTurn());
                 if (state instanceof PlayerState) {
+                    BoardPrint.print(context.getBoard().getField());
                     ((PlayerState) state).choosePlayer(context);
                 }
                 state.execute(context);

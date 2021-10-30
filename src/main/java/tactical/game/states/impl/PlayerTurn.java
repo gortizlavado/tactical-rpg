@@ -11,6 +11,7 @@ import tactical.models.Coordinate;
 import tactical.players.base.Player;
 import tactical.players.base.action.ActionEnum;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -46,7 +47,7 @@ public class PlayerTurn implements GameState, PlayerState {
     @Override
     public void execute(GameContext context) {
         Player player = context.getPlayerChoose();
-        System.out.printf("Player choose for doing an action: %s%n", player.getName());
+        System.out.printf("The Player chosen for doing an action is '%s'%n", player.getName());
         ActionEnum action = inputService.askForAction(player);
         Coordinate coordinate;
         switch (action) {
@@ -57,8 +58,10 @@ public class PlayerTurn implements GameState, PlayerState {
                 break;
             case ATTACK:
                 BaseHandEquipment handEquipment = inputService.askForHandEquipment(player);
-                coordinate = inputService.askForCoordinateToAttack(context.getBoard().getField());
-                if (player.canAttack(coordinate, (Objects.isNull(handEquipment)) ? 1 : handEquipment.getRange())) {
+                int rangeAttack = (Objects.isNull(handEquipment)) ? 1 : handEquipment.getRange();
+                List<Coordinate> coordinateList = context.fetchPossibleCoordinateForAttack(rangeAttack);
+                coordinate = inputService.askForCoordinateToAttack(coordinateList);
+                if (player.canAttack(coordinate, rangeAttack)) {
                     actionService.doAttackAction(context, player, coordinate, handEquipment);
                 } else {
                     System.out.println("Impossible Attack ¬¬. Try with another near target...");

@@ -1,6 +1,7 @@
 package tactical.game.states.impl;
 
 import tactical.game.TacticalGame;
+import tactical.game.board.helper.BoardPrint;
 import tactical.game.context.GameContext;
 import tactical.game.states.GameState;
 
@@ -22,6 +23,7 @@ public class EndGame implements GameState {
     @Override
     public void execute(GameContext context) {
         context.setEndGame(Boolean.TRUE);
+        BoardPrint.print(context.getBoard().getField());
     }
 
     @Override
