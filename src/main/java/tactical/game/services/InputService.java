@@ -47,7 +47,7 @@ public class InputService {
 
         if (Objects.nonNull(board[coordinate.getY()][coordinate.getX()])) {
             System.out.println("Impossible Coordinate ¬¬. Try with another...");
-            askForCoordinateToMove(board);
+            return askForCoordinateToMove(board);
         }
 
         return coordinate;
@@ -69,7 +69,7 @@ public class InputService {
 
         if (x > board[0].length || y > board.length) {
             System.out.println("Impossible Coordinate ¬¬. Try with another...");
-            askForCoordinate(board);
+            return askForCoordinate(board);
         }
 
         return new Coordinate(x, y);
@@ -84,12 +84,12 @@ public class InputService {
         System.out.print("Choose one of hand equipment in this list: ");
         int handChosen = input.nextInt();
 
-        BaseHandEquipment handEquipment = null;
+        BaseHandEquipment handEquipment;
         try {
             handEquipment = player.getHandEquipment()[handChosen];
         } catch (ArrayIndexOutOfBoundsException aiobe) {
             System.out.println("Impossible Equipment ¬¬. Try with another...");
-            askForHandEquipment(player);
+            return askForHandEquipment(player);
         }
         return handEquipment;
     }

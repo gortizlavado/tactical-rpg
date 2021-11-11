@@ -33,8 +33,13 @@ public class TacticalGame {
     }
 
     public void init(String name) {
-        SizeBoard sizeBoard = this.askForBoardSize();
-        System.out.println("Select Size Board: " + sizeBoard);
+        int enemiesNumbers = askForEnemiesNumber();
+        int enemiesLevel = askForEnemiesLevel();
+        int playersNumbers = 2;
+        int totalPlayersNumbers = enemiesNumbers + playersNumbers;
+        System.out.println("There will be numbers of characters: " + totalPlayersNumbers);
+        SizeBoard sizeBoard = this.askForBoardSize(totalPlayersNumbers);
+        System.out.println("Size Board Selected: " + sizeBoard);
         Player thanosh = new Thanosh(7);
         thanosh.setEquipment(new Jacket());
         thanosh.setEquipment(new Ring());
@@ -47,8 +52,6 @@ public class TacticalGame {
         List<Player> playerList = List.of(thanosh, playerTwo);
         context = new GameContext(playerList);
 
-        int enemiesNumbers = askForEnemiesNumber();
-        int enemiesLevel = askForEnemiesLevel();
         context.initiateGameContext(name, sizeBoard, enemiesNumbers, enemiesLevel);
         BoardPrint.print(context.getBoard().getField());
     }
@@ -68,22 +71,39 @@ public class TacticalGame {
         }
     }
 
-    private SizeBoard askForBoardSize() {
+    private SizeBoard askForBoardSize(int totalPlayersNumbers) {
         System.out.println("Choose size of board...");
-        System.out.print("length(x): ");
-        int x = input.nextInt();
-        if (x < 1) {
-            System.out.println("Board Size MUST be higher than zero");
-            askForBoardSize();
-        }
-        System.out.print("height(y): ");
-        int y = input.nextInt();
-        if (y < 1) {
-            System.out.println("Board Size MUST be higher than zero");
-            askForBoardSize();
+        int x = askForLengthBoardSize();
+        int y = askForHeightBoardSize();
+        int totalSquare = x * y;
+        if (totalSquare < totalPlayersNumbers) {
+            System.out.println("There are more characters than square");
+            return askForBoardSize(totalPlayersNumbers);
         }
 
         return new SizeBoard(x, y);
+    }
+
+    private int askForLengthBoardSize() {
+        System.out.print("length(x): ");
+        int x = input.nextInt();
+        if (x < 1) {
+            System.out.println("Board Size Length MUST be higher than zero");
+            return askForLengthBoardSize();
+        }
+
+        return x;
+    }
+
+    private int askForHeightBoardSize() {
+        System.out.print("height(y): ");
+        int y = input.nextInt();
+        if (y < 1) {
+            System.out.println("Board Size Height MUST be higher than zero");
+            return askForHeightBoardSize();
+        }
+
+        return y;
     }
 
     private int askForEnemiesNumber() {
