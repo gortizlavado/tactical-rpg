@@ -2,9 +2,9 @@ package tactical.game.board;
 
 import tactical.exception.BoardCreationException;
 import tactical.game.board.model.BoardGame;
+import tactical.game.board.model.SizeBoard;
 import tactical.game.context.GameContext;
 import tactical.models.Coordinate;
-import tactical.game.board.model.SizeBoard;
 import tactical.players.base.Player;
 
 import java.util.List;
@@ -17,6 +17,7 @@ public class BoardProvider {
         List<Player> players = charactersMap.get(GameContext.PLAYER_KEY);
         List<Player> enemies = charactersMap.get(GameContext.ENEMY_KEY);
         validateCreationBoardGame(name, sizeBoard, players, enemies);
+
         Player[][] board = new Player[sizeBoard.getHeight()][sizeBoard.getLength()];
         for (Player player : players) {
             final Coordinate coordinate = player.getCoordinate();

@@ -41,10 +41,9 @@ public class GameContext {
         EnemiesProvider enemiesProvider = new EnemiesProvider();
         BoardProvider boardProvider = new BoardProvider();
         this.charactersMap.put(ENEMY_KEY, enemiesProvider.createEnemiesStatsBy(enemiesNumber, enemiesLevel));
-        //TODO better way to do this
         AtomicInteger i = new AtomicInteger();
-        this.charactersMap.get(ENEMY_KEY).forEach(enemy -> enemy.setCoordinate(
-                new Coordinate(sizeBoard.getLength() - 1 - i.getAndIncrement(), sizeBoard.getHeight() - 1)));
+        AtomicInteger y = new AtomicInteger(sizeBoard.getHeight() - 1);
+        this.charactersMap.get(ENEMY_KEY).forEach(enemy -> setCoordinate(sizeBoard, i, y, enemy));
         this.board = boardProvider.createBoardGameBy(name, sizeBoard, this.charactersMap);
 
         this.charactersMap.get(PLAYER_KEY).forEach(Player::endTurn);
@@ -79,5 +78,20 @@ public class GameContext {
         }
 
         return coordinateList;
+    }
+
+    private void setCoordinate(SizeBoard sizeBoard, AtomicInteger i, AtomicInteger y, Player enemy) {
+        final int maxSizeLength = sizeBoard.getLength() - 1;
+
+        int x = maxSizeLength - i.getAndIncrement();
+        if (x < 0) {
+            i.set(1);
+            x = maxSizeLength;
+            y.decrementAndGet();
+        }
+
+        final int xFinal = x;
+
+        enemy.setCoordinate(new Coordinate(xFinal, y.get()));
     }
 }
